@@ -29,6 +29,7 @@ public final class IncidentAppConfig {
         PAGERDUTY,
         OPSGENIE,
         ROOTLY,
+        WEBHOOK,
         UNKNOWN
     }
 }

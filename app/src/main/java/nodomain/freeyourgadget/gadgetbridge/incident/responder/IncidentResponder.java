@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.incident.responder;
 
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
 import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
+import nodomain.freeyourgadget.gadgetbridge.incident.webhook.WebhookResponder;
 
 public interface IncidentResponder {
     ResponderResult acknowledge(String incidentId);
@@ -16,6 +17,8 @@ public interface IncidentResponder {
                 return new OpsgenieResponder();
             case ROOTLY:
                 return new RootlyResponder();
+            case WEBHOOK:
+                return new WebhookResponder();
             default:
                 return null;
         }
