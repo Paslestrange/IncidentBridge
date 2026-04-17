@@ -1,11 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.incident.responder;
 
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
+import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
 
 public interface IncidentResponder {
-    void acknowledge(String incidentId);
-    void escalate(String incidentId);
-    void resolve(String incidentId);
+    ResponderResult acknowledge(String incidentId);
+    ResponderResult escalate(String incidentId);
+    ResponderResult resolve(String incidentId);
 
     static IncidentResponder getResponder(IncidentAppConfig.IncidentProvider provider) {
         switch (provider) {

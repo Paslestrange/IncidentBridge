@@ -50,6 +50,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
+import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
+import nodomain.freeyourgadget.gadgetbridge.incident.VibrationPatterns;
+import nodomain.freeyourgadget.gadgetbridge.incident.WristFeedback;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
 import nodomain.freeyourgadget.gadgetbridge.incident.responder.IncidentResponder;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -522,7 +526,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     private boolean handleIncidentReply(String message) {
-        if (!message.equals("Ack") && !message.equals("Esc") && !message.equals("Res")) {
+        if (!message.equals(IncidentConstants.ACTION_ACK)
+                && !message.equals(IncidentConstants.ACTION_ESC)
+                && !message.equals(IncidentConstants.ACTION_RES)) {
             return false;
         }
 
@@ -546,20 +552,36 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         }
 
         new Thread(() -> {
+            ResponderResult result;
             try {
                 switch (message) {
-                    case "Ack":
-                        responder.acknowledge(incident.incidentId);
+                    case IncidentConstants.ACTION_ACK:
+                        result = responder.acknowledge(incident.incidentId);
                         break;
-                    case "Esc":
-                        responder.escalate(incident.incidentId);
+                    case IncidentConstants.ACTION_ESC:
+                        result = responder.escalate(incident.incidentId);
                         break;
-                    case "Res":
-                        responder.resolve(incident.incidentId);
+                    case IncidentConstants.ACTION_RES:
+                        result = responder.resolve(incident.incidentId);
+                        break;
+                    default:
+                        result = ResponderResult.FAILED;
                         break;
                 }
             } catch (Exception e) {
                 LOG.error("Responder failed for incident {}", incident.incidentId, e);
+                result = ResponderResult.FAILED;
+            }
+
+            // Send wrist feedback
+            String feedbackMsg = result == ResponderResult.SUCCESS ? "✓ " + message : "✗ Failed";
+            WristFeedback.sendFeedback(feedbackMsg, result == ResponderResult.SUCCESS);
+
+            // Trigger vibration
+            if (result == ResponderResult.SUCCESS) {
+                getSupport().triggerIncidentVibration("SUCCESS");
+            } else {
+                getSupport().triggerIncidentVibration("FAILURE");
             }
         }).start();
 
