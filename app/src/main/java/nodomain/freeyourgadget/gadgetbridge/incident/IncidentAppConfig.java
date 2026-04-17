@@ -13,8 +13,7 @@ public final class IncidentAppConfig {
     private static final Set<String> INCIDENT_APPS = new HashSet<>(Arrays.asList(
             PAGERDUTY,
             OPSGENIE,
-            ROOTLY,
-            SLACK
+            ROOTLY
     ));
 
     private IncidentAppConfig() {

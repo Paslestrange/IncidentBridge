@@ -1,15 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.incident;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class IncidentMapping {
-    private static final Map<String, IncidentInfo> mappings = new HashMap<>();
-    private static String mostRecentKey = null;
+    private static final ConcurrentHashMap<String, IncidentInfo> mappings = new ConcurrentHashMap<>();
+    private static final AtomicReference<String> mostRecentKey = new AtomicReference<>();
 
     public static void put(String notificationKey, String incidentId, IncidentAppConfig.IncidentProvider provider) {
         mappings.put(notificationKey, new IncidentInfo(incidentId, provider));
-        mostRecentKey = notificationKey;
+        mostRecentKey.set(notificationKey);
     }
 
     public static IncidentInfo get(String notificationKey) {
@@ -17,17 +17,16 @@ public class IncidentMapping {
     }
 
     public static IncidentInfo getMostRecent() {
-        if (mostRecentKey == null) {
-            return mappings.isEmpty() ? null : mappings.values().iterator().next();
+        String key = mostRecentKey.get();
+        if (key != null) {
+            return mappings.get(key);
         }
-        return mappings.get(mostRecentKey);
+        return mappings.isEmpty() ? null : mappings.values().iterator().next();
     }
 
     public static void remove(String notificationKey) {
         mappings.remove(notificationKey);
-        if (notificationKey.equals(mostRecentKey)) {
-            mostRecentKey = null;
-        }
+        mostRecentKey.compareAndSet(notificationKey, null);
     }
 
     public static class IncidentInfo {

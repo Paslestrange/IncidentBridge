@@ -145,6 +145,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 deviceEvtNotificationControl.handle = cmd.getNotification().getOpenOnPhone().getId();
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
                 getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
+                return;
             case CMD_CANNED_MESSAGES_GET:
                 handleCannedMessages(cmd.getNotification().getCannedMessages());
                 return;
@@ -533,25 +534,36 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             return false;
         }
 
+        if (incident.incidentId == null || incident.incidentId.isEmpty()) {
+            LOG.warn("Incident ID is null or empty, cannot route reply");
+            return false;
+        }
+
         IncidentResponder responder = IncidentResponder.getResponder(incident.provider);
         if (responder == null) {
             LOG.warn("No responder available for provider {}", incident.provider);
             return false;
         }
 
-        switch (message) {
-            case "Ack":
-                responder.acknowledge(incident.incidentId);
-                return true;
-            case "Esc":
-                responder.escalate(incident.incidentId);
-                return true;
-            case "Res":
-                responder.resolve(incident.incidentId);
-                return true;
-        }
+        new Thread(() -> {
+            try {
+                switch (message) {
+                    case "Ack":
+                        responder.acknowledge(incident.incidentId);
+                        break;
+                    case "Esc":
+                        responder.escalate(incident.incidentId);
+                        break;
+                    case "Res":
+                        responder.resolve(incident.incidentId);
+                        break;
+                }
+            } catch (Exception e) {
+                LOG.error("Responder failed for incident {}", incident.incidentId, e);
+            }
+        }).start();
 
-        return false;
+        return true;
     }
 
     private void ackSmsReply(final boolean success) {

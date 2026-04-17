@@ -30,10 +30,13 @@ public class RootlyResponder implements IncidentResponder {
     }
 
     private void sendPatch(String incidentId, String payload) {
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(API_BASE + "/" + incidentId);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("PATCH");
+            conn = (HttpURLConnection) url.openConnection();
+            // HttpURLConnection doesn't support PATCH natively, use POST with override header
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
             conn.setRequestProperty("Authorization", "Bearer " + getApiToken());
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
@@ -50,14 +53,16 @@ public class RootlyResponder implements IncidentResponder {
             } else {
                 LOG.warn("Rootly incident {} update failed with code {}", incidentId, responseCode);
             }
-            conn.disconnect();
         } catch (Exception e) {
             LOG.error("Failed to update Rootly incident {}", incidentId, e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
     }
 
     private String getApiToken() {
-        return GBApplication.getDeviceSpecificSharedPrefs(null)
-                .getString("rootly_api_token", "");
+        return GBApplication.getPrefs().getString("rootly_api_token", "");
     }
 }

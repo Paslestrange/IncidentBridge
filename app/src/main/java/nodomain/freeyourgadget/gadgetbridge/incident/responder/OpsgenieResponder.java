@@ -3,8 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.incident.responder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -28,14 +30,29 @@ public class OpsgenieResponder implements IncidentResponder {
     }
 
     private void sendPost(String path) {
+        if (path == null || path.isEmpty()) {
+            LOG.warn("Invalid path for Opsgenie");
+            return;
+        }
+        String apiKey = getApiKey();
+        if (apiKey.isEmpty()) {
+            LOG.warn("Opsgenie API key not configured");
+            return;
+        }
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(API_BASE + "/" + path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "GenieKey " + getApiKey());
+            conn.setRequestProperty("Authorization", "GenieKey " + apiKey);
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(10000);
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write("{}".getBytes(StandardCharsets.UTF_8));
+            }
 
             int responseCode = conn.getResponseCode();
             if (responseCode >= 200 && responseCode < 300) {
@@ -43,14 +60,16 @@ public class OpsgenieResponder implements IncidentResponder {
             } else {
                 LOG.warn("Opsgenie {} failed with code {}", path, responseCode);
             }
-            conn.disconnect();
         } catch (Exception e) {
             LOG.error("Failed to call Opsgenie {}", path, e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
     }
 
     private String getApiKey() {
-        return GBApplication.getDeviceSpecificSharedPrefs(null)
-                .getString("opsgenie_api_key", "");
+        return GBApplication.getPrefs().getString("opsgenie_api_key", "");
     }
 }

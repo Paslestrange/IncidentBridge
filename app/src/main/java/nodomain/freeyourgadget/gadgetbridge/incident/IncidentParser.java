@@ -12,7 +12,7 @@ public final class IncidentParser {
             Pattern.CASE_INSENSITIVE
     );
     private static final Pattern INCIDENT_ID_PATTERN = Pattern.compile(
-            "#([A-Z0-9-]+)"
+            "#([A-Za-z0-9-]+)"
     );
 
     private IncidentParser() {
@@ -43,6 +43,9 @@ public final class IncidentParser {
     }
 
     public static String parseIncidentId(StatusBarNotification sbn) {
+        if (sbn == null || sbn.getNotification() == null) {
+            return null;
+        }
         Bundle extras = sbn.getNotification().extras;
         String incidentId = extras.getString("incident_id");
         if (incidentId != null && !incidentId.isEmpty()) {

@@ -30,13 +30,25 @@ public class PagerDutyResponder implements IncidentResponder {
     }
 
     private void sendAction(String incidentId, String status) {
+        if (incidentId == null || incidentId.isEmpty()) {
+            LOG.warn("Invalid incidentId for PagerDuty {}", status);
+            return;
+        }
+        String token = getApiToken();
+        String email = getUserEmail();
+        if (token.isEmpty() || email.isEmpty()) {
+            LOG.warn("PagerDuty credentials not configured");
+            return;
+        }
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(API_BASE + "/" + incidentId);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("PUT");
-            conn.setRequestProperty("Authorization", "Token token=" + getApiToken());
+            conn.setRequestProperty("Authorization", "Token token=" + token);
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("From", getUserEmail());
+            conn.setRequestProperty("Accept", "application/vnd.pagerduty+json;version=2");
+            conn.setRequestProperty("From", email);
             conn.setDoOutput(true);
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(10000);
@@ -52,19 +64,20 @@ public class PagerDutyResponder implements IncidentResponder {
             } else {
                 LOG.warn("PagerDuty incident {} {} failed with code {}", incidentId, status, responseCode);
             }
-            conn.disconnect();
         } catch (Exception e) {
             LOG.error("Failed to {} PagerDuty incident {}", status, incidentId, e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
     }
 
     private String getApiToken() {
-        return GBApplication.getDeviceSpecificSharedPrefs(null)
-                .getString("pagerduty_api_token", "");
+        return GBApplication.getPrefs().getString("pagerduty_api_token", "");
     }
 
     private String getUserEmail() {
-        return GBApplication.getDeviceSpecificSharedPrefs(null)
-                .getString("pagerduty_user_email", "");
+        return GBApplication.getPrefs().getString("pagerduty_user_email", "");
     }
 }

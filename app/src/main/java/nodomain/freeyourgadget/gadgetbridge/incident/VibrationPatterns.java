@@ -13,7 +13,7 @@ public class VibrationPatterns {
         if (severity == null) {
             return P4_GENTLE;
         }
-        switch (severity.toUpperCase()) {
+        switch (severity.toUpperCase(java.util.Locale.ROOT)) {
             case "P1":
             case "SEV1":
             case "CRITICAL":
