@@ -93,6 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.incident.DndIntegration;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentParser;
@@ -612,6 +613,11 @@ public class NotificationListener extends NotificationListenerService {
 
             if (!OnCallSchedule.shouldForwardNotification(notificationSpec.severity)) {
                 LOG.info("Skipping incident notification outside on-call hours: {}", source);
+                return;
+            }
+
+            if (!DndIntegration.shouldBypassDnd(notificationSpec.severity)) {
+                LOG.info("Skipping incident notification due to DND: {}", source);
                 return;
             }
 
