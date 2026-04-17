@@ -651,7 +651,7 @@
     <string name="thai">Tailandès</string>
     <string name="vietnamese">Vietnamita</string>
     <string name="portuguese">Portuguès</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="fw_upgrade_notice_miband4">Esteu a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 4.
 \n
 \nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar l\'arxiu .fw.

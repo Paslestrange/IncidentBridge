@@ -120,7 +120,7 @@
     <string name="pref_call_privacy_mode_complete">مخفی کردن شماره و نام</string>
     <string name="pref_title_weather">هواشناسی</string>
     <string name="pref_title_weather_location">مکان تعیین شده برای هواشناسی (CM/LOS)</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="sonyswr12_settings_low_vibration_summary">لرزش کم روی باند را فعال کنید</string>
     <string name="sonyswr12_settings_stamina_summary">حالت صرفه جویی در مصرف انرژی اندازه گیری دوره ای ضربان قلب را خاموش می کند و در نتیجه زمان کار افزایش می یابد</string>
     <string name="sonyswr12_settings_alarm_interval_summary">فاصله هشدار هوشمند فاصله قبل از زنگ هشدار نصب شده است. در این فاصله دستگاه در تلاش است تا کمترین مرحله خواب را برای کاربر بیدار تشخیص دهد</string>

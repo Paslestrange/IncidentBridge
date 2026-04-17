@@ -24,7 +24,7 @@
     <string name="controlcenter_calibrate_device">Kalibrasi Perangkat</string>
     <string name="title_activity_debug">Awakutu</string>
     <string name="debugactivity_really_factoryreset_title">Kembalikan ke pengaturan pabrik\?</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="appmananger_app_reinstall">Instal ulang</string>
     <string name="appmananger_app_delete_cache">Hapus dan singkirkan dari cache</string>
     <string name="appmananger_app_delete">Hapus</string>

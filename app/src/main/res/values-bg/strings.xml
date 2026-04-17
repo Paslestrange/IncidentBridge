@@ -473,7 +473,7 @@
     <string name="live_activity_start_your_activity">Стартирайте активност</string>
     <string name="title_activity_device_specific_settings">Специфични настройки за устройството</string>
     <string name="average">Средно: %1$s</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="Cancel">Отказ</string>
     <string name="Delete">Изтрий</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Дълбок сън</string>

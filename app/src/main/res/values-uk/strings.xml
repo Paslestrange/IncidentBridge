@@ -416,7 +416,7 @@
     <string name="zetime_date_format_1">РР/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/РР</string>
     <string name="zetime_date_format_3">ММ/ДД/РР</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="pref_summary_pebble_forcele">Використовувати експериментальну підтримку Pebble LE для всіх пристроїв Pebble замість класичного Bluetooth. Це потребуватиме спочатку сполучення з пристроєм без LE, а потім – із Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Обмеження GATT MTU для Pebble 2/LE</string>
     <string name="pref_summary_pebble_mtu_limit">Якщо ваш Pebble 2 або Pebble LE працює неналежним чином, спробуйте скористатися цим налаштуванням, обмеживши MTU (діапазон 20–512)</string>

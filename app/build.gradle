@@ -95,7 +95,7 @@ android {
     buildToolsVersion = '36.0.0'
 
     defaultConfig {
-        applicationId "nodomain.freeyourgadget.gadgetbridge"
+        applicationId "io.incidentbridge"
 
         // Note: update toolchain.languageVersion when changing targetSdk
         //noinspection OldTargetApi
@@ -135,7 +135,7 @@ android {
 
         banglejs {
             dimension "device_type"
-            applicationId "com.espruino.gadgetbridge"
+            applicationId "io.incidentbridge.banglejs"
             applicationIdSuffix ".banglejs"
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"

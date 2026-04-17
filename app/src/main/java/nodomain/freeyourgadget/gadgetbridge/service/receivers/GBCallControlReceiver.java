@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 
 public class GBCallControlReceiver extends BroadcastReceiver {
-    public static final String ACTION_CALLCONTROL = "nodomain.freeyourgadget.gadgetbridge.callcontrol";
+    public static final String ACTION_CALLCONTROL = "io.incidentbridge.callcontrol";
     private static final Logger LOG = LoggerFactory.getLogger(GBCallControlReceiver.class);
     private Context mContext = GBApplication.getContext();
 

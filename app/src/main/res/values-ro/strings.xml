@@ -124,7 +124,7 @@
     <string name="filter_submode_all">Toate cuvintele</string>
     <string name="save_configuration">Salvare configurație</string>
     <string name="appwidget_not_connected">Deconectat(ă), alarma nu este setată.</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="sonyswr12_settings_title">Setări Sony SWR12</string>
     <string name="sonyswr12_settings_stamina">Modul de economisire a energiei este activat</string>
     <string name="sonyswr12_settings_alarm_interval">Interval de alarmă inteligentă în minute</string>

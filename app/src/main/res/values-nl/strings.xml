@@ -732,7 +732,7 @@
 \nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="preferences_qhybrid_settings">Q Hybrid instellingen</string>
     <string name="watch_not_connected">Horloge niet verbonden</string>
     <string name="qhybrid_vibration_strength">trillingssterkte:</string>

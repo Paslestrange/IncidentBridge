@@ -5,7 +5,7 @@
     <string name="female">Žensko</string>
     <string name="other">Ostalo</string>
     <string name="left">Lijevo</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="fw_upgrade_notice">Spremate se instalirati %s.</string>
     <string name="title_activity_fw_app_insaller">Program za instalaciju FW-a/aplikacija</string>
     <string name="whitelist_all_for_notifications">Sve obavijesti stavi na popis dopuštenih</string>

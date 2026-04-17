@@ -539,7 +539,7 @@
     <string name="mi2_prefs_button_action">Ativar botão de ação</string>
     <string name="mi2_prefs_button_action_vibrate">Ativar vibração da pulseira</string>
     <string name="debugactivity_really_factoryreset">Efetuar uma reposição de fábrica apagar todos os dados dos aparelhos ligados (caso seja suportado). Além disso, aparelhos Xiaomi/Huami mudam os endereços MAC, aparecendo como aparelhos novos para o Gadgetbridge.</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%1$d:%2$02d hora</item>
         <item quantity="many">%1$d:%2$02d horas</item>

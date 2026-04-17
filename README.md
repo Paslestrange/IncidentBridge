@@ -1,22 +1,16 @@
-Gadgetbridge is hosted on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/).
+IncidentBridge is a fork of [Gadgetbridge](https://codeberg.org/Freeyourgadget/Gadgetbridge/).
 
 
-Gadgetbridge
-============
+IncidentBridge
+==============
 
-Gadgetbridge is an Android application which will allow you to use your
-Bluetooth gadgets (mostly wearables like smart watches, but many more) without the vendor's closed source application
-and without the need to create an account and transmit any of your data to the
-vendor's servers.
+IncidentBridge is an Android application forked from Gadgetbridge, customized for on-call engineers who need severity-filtered smartwatch alerts and wrist-level incident response.
 
-[Homepage](https://gadgetbridge.org) - [Blog](https://blog.freeyourgadget.org) - <a rel="me" href="https://social.anoxinon.de/@gadgetbridge">Mastodon</a>
+It allows you to use your Bluetooth gadgets without the vendor's closed source application and without transmitting data to vendor servers.
 
-[![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
+Original project: [Gadgetbridge Homepage](https://gadgetbridge.org) - [Gadgetbridge Blog](https://blog.freeyourgadget.org)
 
-
-[![Translate](https://hosted.weblate.org/widgets/freeyourgadget/-/gadgetbridge/svg-badge.svg)](https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge)
-
-## Download
+## Download Original Gadgetbridge
 
 <a href="https://f-droid.org/app/nodomain.freeyourgadget.gadgetbridge">
     <img alt="Get it on F-Droid" src="https://gadgetbridge.org/assets/static/get-it-on-fdroid.png" height="60">

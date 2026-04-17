@@ -735,7 +735,7 @@
 \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="preferences_qhybrid_settings">הגדרות Q Hybrid</string>
     <string name="watch_not_connected">השעון לא מחובר</string>
     <string name="qhybrid_vibration_strength">עצמת רטט:</string>

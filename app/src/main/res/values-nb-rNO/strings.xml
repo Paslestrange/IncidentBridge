@@ -673,7 +673,7 @@
     <string name="pref_chart_sleep_rolling_24_on">Siste 24 timer</string>
     <string name="pref_chart_sleep_rolling_24_off">Kl. 12 til kl. 12</string>
     <string name="fw_upgrade_notice_amazfitgts">Du er i ferd med å installere %s fastvare på din Amazfit GTS.\n\nVennligst sørg for å installere .fw-filen, deretter .res-filen, og til slutt .gps-filen. Klokken din vil starte på nytt etter å ha installert .fw-filen.\n\nMerk: Du trenger ikke å installere .res og .gps hvis disse filene er nøyaktig de samme som de tidligere installerte.\n\nFORTSETT PÅ EGET ANSVAR!</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="watch_not_connected">Klokke ikke koblet til</string>
     <string name="qhybrid_vibration_strength">vibrasjonsstyrke:</string>
     <string name="preferences_qhybrid_settings">Q Hybrid-innstillinger</string>

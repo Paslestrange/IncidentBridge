@@ -53,7 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 public class Widget extends AppWidgetProvider {
-    public static final String WIDGET_CLICK = "nodomain.freeyourgadget.gadgetbridge.WidgetClick";
+    public static final String WIDGET_CLICK = "io.incidentbridge.WidgetClick";
     public static final String APPWIDGET_DELETED = "android.appwidget.action.APPWIDGET_DELETED";
 
     private static final Logger LOG = LoggerFactory.getLogger(Widget.class);

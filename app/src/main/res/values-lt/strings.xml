@@ -46,7 +46,7 @@
     <string name="title_activity_fw_app_insaller">FW/Programų diegyklė</string>
     <string name="menuitem_activity">Veikla</string>
     <string name="controlcenter_calibrate_device">Kalibruoti įrenginį</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="fw_upgrade_notice_amazfitbip">Jau instaliavę %s programinės įrangos į Amazfit Bip.
 \n
 \nĮsitikinkite, kad instaliavote .fw failą ir po to .res failą ir pabaigoje .gps failą.

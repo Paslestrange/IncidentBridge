@@ -585,7 +585,7 @@
     <string name="filter_mode">Режим фильтрации</string>
     <string name="save_configuration">Сохранить конфигурацию</string>
     <string name="appwidget_not_connected">Не подключено, будильник не установлено.</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="debugactivity_really_factoryreset">Сброс настроек удалит все данные с этого устройства (если поддерживается). Устройства Xiaomi и Huami поменяют MAC-адрес Bluetooth, поэтому в Gadgetbridge они отображаются как новые устройства.</string>
     <string name="zetime_date_format_1">ГГ/ММ/ДД</string>
     <string name="zetime_date_format_2">ДД/ММ/ГГ</string>

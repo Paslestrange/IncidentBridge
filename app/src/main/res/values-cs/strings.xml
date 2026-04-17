@@ -730,7 +730,7 @@
 \nPoznámka: soubory .res a .gps nemusíte instalovat, pokud jsou totožné s již dříve nainstalovanými.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="preferences_qhybrid_settings">Nastavení Q Hybrid</string>
     <string name="watch_not_connected">Hodinky nejsou připojeny</string>
     <string name="qhybrid_vibration_strength">síla vibrace:</string>

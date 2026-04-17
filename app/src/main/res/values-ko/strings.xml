@@ -546,7 +546,7 @@
     <string name="preferences_fm_frequency">FM 주파수</string>
     <string name="pref_invalid_frequency_title">잘못된 주파수</string>
     <string name="pref_invalid_frequency_message">87.5에서 108.0 사이의 주파수를 입력하세요.</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="sonyswr12_settings_title">Sony SWR12 설정</string>
     <string name="sonyswr12_settings_low_vibration">약한 진동 활성화</string>
     <string name="sonyswr12_settings_low_vibration_summary">손목 밴드의 진동 강도를 낮게 설정합니다.</string>

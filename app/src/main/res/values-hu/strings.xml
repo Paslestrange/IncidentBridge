@@ -446,7 +446,7 @@
     <string name="notif_battery_low">%1$s akkumulátora merül</string>
     <string name="notif_battery_low_extended">%1$s akkumulátora alacsony szinten: %2$s</string>
     <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a párosított eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="prefs_title_heartrate_measurement_interval">Egész napos pulzusmérés</string>
     <string name="prefs_screen_orientation">Képernyő tájolása</string>
     <string name="pref_summary_sync_calendar">Naptári értesítések bekapcsolása akkor is, ha az eszköz le van választva</string>

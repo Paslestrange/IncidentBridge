@@ -34,7 +34,7 @@
     <string name="appmanager_weather_deactivate">Ota järjestelmän sääsovellus pois käytöstä</string>
     <string name="app_configure">Määritä</string>
     <string name="app_move_to_top">Siirrä ylimmäksi</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="sonyswr12_settings_title">Sony SWR12 asetukset</string>
     <string name="sonyswr12_settings_low_vibration">Matala värinä käytössä</string>
     <string name="sonyswr12_settings_stamina">Virransäästötila päällä</string>

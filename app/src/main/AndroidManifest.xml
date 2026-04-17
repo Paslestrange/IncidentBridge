@@ -668,7 +668,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
+                <action android:name="io.incidentbridge.ACTION_GENERIC_WEATHER" />
             </intent-filter>
         </receiver>
 
@@ -701,14 +701,14 @@
             android:name=".service.receivers.GBMusicControlReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.musiccontrol" />
+                <action android:name="io.incidentbridge.musiccontrol" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".service.receivers.GBCallControlReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
+                <action android:name="io.incidentbridge.callcontrol" />
             </intent-filter>
         </receiver>
         <!--
@@ -909,7 +909,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
+                <action android:name="io.incidentbridge.SLEEP_ALARM_WIDGET_CLICK" />
             </intent-filter>
 
             <meta-data
@@ -924,7 +924,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
                 <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />
+                <action android:name="io.incidentbridge.WidgetClick" />
             </intent-filter>
 
             <meta-data

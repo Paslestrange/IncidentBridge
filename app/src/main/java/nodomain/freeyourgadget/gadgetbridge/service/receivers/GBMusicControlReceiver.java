@@ -44,7 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class GBMusicControlReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(GBMusicControlReceiver.class);
 
-    public static final String ACTION_MUSICCONTROL = "nodomain.freeyourgadget.gadgetbridge.musiccontrol";
+    public static final String ACTION_MUSICCONTROL = "io.incidentbridge.musiccontrol";
 
     @Override
     public void onReceive(final Context context, final Intent intent) {

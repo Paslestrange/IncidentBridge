@@ -729,7 +729,7 @@
 \n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
 \n
 \n风险自担！</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="preferences_qhybrid_settings">Q Hybrid 设置</string>
     <string name="watch_not_connected">手表未连接</string>
     <string name="qhybrid_vibration_strength">振动强度：</string>

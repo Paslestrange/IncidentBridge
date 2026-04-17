@@ -42,7 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class GenericWeatherReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(GenericWeatherReceiver.class);
 
-    public final static String ACTION_GENERIC_WEATHER = "nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER";
+    public final static String ACTION_GENERIC_WEATHER = "io.incidentbridge.ACTION_GENERIC_WEATHER";
     public final static String EXTRA_WEATHER_GZ = "WeatherGz";
     public final static String EXTRA_WEATHER_JSON = "WeatherJson";
     public final static String EXTRA_WEATHER_SECONDARY_JSON = "WeatherSecondaryJson";

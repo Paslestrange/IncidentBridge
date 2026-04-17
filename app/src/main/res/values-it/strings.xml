@@ -668,7 +668,7 @@
     <string name="prefs_hr_alarm_activity">Imposta allarme frequenza cardiaca durante l\'attività sportiva</string>
     <string name="prefs_hr_alarm_low">Limite inferiore</string>
     <string name="prefs_hr_alarm_high">Limite Superiore</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">io.incidentbridge.ButtonPressed</string>
     <string name="pref_header_charts">Impostazioni dei grafici</string>
     <string name="pref_title_charts_average">Mostra le medie nei grafici</string>
     <string name="pref_title_charts_range">Intervallo dei grafici</string>

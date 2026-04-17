@@ -346,7 +346,7 @@
     <string name="mi2_prefs_button_actions">Düğme eylemleri</string>
     <string name="mi2_prefs_button_actions_summary">Düğme basma eylemlerini belirtin</string>
     <string name="mi2_prefs_button_press_broadcast">Gönderilecek yayınlama mesajı</string>
-    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">io.incidentbridge.ButtonPressed</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Etkinlikle birlikte gönderilen yayınlama mesajı. \"button_id\" parametresi otomatik olarak her mesaja eklenir.</string>
     <string name="mi2_prefs_button_press_count">Düğme basma sayısı</string>
     <string name="mi2_prefs_button_press_count_max_delay">Basmalar arasındaki azami gecikme</string>
