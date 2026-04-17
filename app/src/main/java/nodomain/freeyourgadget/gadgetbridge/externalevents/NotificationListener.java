@@ -93,6 +93,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentParser;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
@@ -602,6 +605,16 @@ public class NotificationListener extends NotificationListenerService {
         } else {
             notificationOldRepeatPrevention.put(source, notification.when);
         }
+
+        if (IncidentAppConfig.isIncidentApp(source)) {
+            notificationSpec.severity = IncidentParser.parseSeverity(notificationSpec.title, notificationSpec.body);
+            String incidentId = IncidentParser.parseIncidentId(sbn);
+            IncidentAppConfig.IncidentProvider provider = IncidentAppConfig.getProvider(source);
+            if (incidentId != null) {
+                IncidentMapping.put(notificationSpec.key, incidentId, provider);
+            }
+        }
+
         notificationsActive.add(notificationSpec.getId());
         // NOTE for future developers: this call goes to implementations of DeviceService.onNotification(NotificationSpec), like in GBDeviceService
         // this does NOT directly go to implementations of DeviceSupport.onNotification(NotificationSpec)!

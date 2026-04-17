@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="incident_apps">
+        <item>PagerDuty</item>
+        <item>Opsgenie</item>
+        <item>Rootly</item>
+        <item>Slack</item>
+    </string-array>
+
+    <string-array name="incident_app_values">
+        <item>com.pagerduty.android</item>
+        <item>com.opsgenie.app</item>
+        <item>com.rootly.mobile</item>
+        <item>com.Slack</item>
+    </string-array>
+</resources>

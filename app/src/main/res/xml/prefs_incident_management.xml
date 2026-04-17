@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="pref_incident_management_enabled"
+        android:title="@string/pref_title_incident_management_enabled"
+        android:summary="@string/pref_summary_incident_management_enabled"
+        android:defaultValue="true" />
+
+    <PreferenceCategory
+        android:title="@string/pref_header_incident_providers">
+
+        <EditTextPreference
+            android:key="pagerduty_api_token"
+            android:title="@string/pref_title_pagerduty_api_token"
+            android:summary="@string/pref_summary_pagerduty_api_token"
+            android:inputType="textPassword" />
+
+        <EditTextPreference
+            android:key="pagerduty_user_email"
+            android:title="@string/pref_title_pagerduty_user_email"
+            android:summary="@string/pref_summary_pagerduty_user_email"
+            android:inputType="textEmailAddress" />
+
+        <EditTextPreference
+            android:key="opsgenie_api_key"
+            android:title="@string/pref_title_opsgenie_api_key"
+            android:summary="@string/pref_summary_opsgenie_api_key"
+            android:inputType="textPassword" />
+
+        <EditTextPreference
+            android:key="rootly_api_token"
+            android:title="@string/pref_title_rootly_api_token"
+            android:summary="@string/pref_summary_rootly_api_token"
+            android:inputType="textPassword" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_incident_filtering">
+
+        <MultiSelectListPreference
+            android:key="incident_app_whitelist"
+            android:title="@string/pref_title_incident_app_whitelist"
+            android:summary="@string/pref_summary_incident_app_whitelist"
+            android:entries="@array/incident_apps"
+            android:entryValues="@array/incident_app_values"
+            android:defaultValue="@array/incident_app_values" />
+
+        <EditTextPreference
+            android:key="incident_content_filter"
+            android:title="@string/pref_title_incident_content_filter"
+            android:summary="@string/pref_summary_incident_content_filter"
+            android:defaultValue="P1,P2,CRITICAL,HIGH" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

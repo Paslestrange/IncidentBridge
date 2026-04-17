@@ -195,6 +195,13 @@
         android:title="@string/pref_header_notifications"
         app:iconSpaceReserved="false" />
 
+    <Preference
+        android:icon="@drawable/ic_notification_alert"
+        android:key="pref_category_incident_management"
+        android:summary="@string/pref_description_incident_management"
+        android:title="@string/pref_header_incident_management"
+        app:iconSpaceReserved="false" />
+
     <PreferenceScreen
         android:icon="@drawable/ic_paint"
         android:key="pref_screen_user_interface"

@@ -53,6 +53,7 @@ public class NotificationSpec {
     public String picturePath;
 
     public int dndSuppressed;
+    public String severity;
 
     public NotificationSpec() {
         this(-1);

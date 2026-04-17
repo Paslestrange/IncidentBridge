@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -216,6 +217,13 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             notification3.setOpenOnPhone(true);
         }
 
+        if (IncidentAppConfig.isIncidentApp(notificationSpec.sourceAppId)) {
+            notification3.setRepliesAllowed(true);
+            notification3.addReply("Ack");
+            notification3.addReply("Esc");
+            notification3.addReply("Res");
+        }
+
         final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
                 .setNotification3(notification3)
                 .build();
@@ -232,6 +240,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                         .setNotification(notification)
                         .build()
         );
+
+        if (notificationSpec.severity != null) {
+            LOG.info("Incident notification sent with severity {}", notificationSpec.severity);
+        }
     }
 
     public void onDeleteNotification(final int id) {
