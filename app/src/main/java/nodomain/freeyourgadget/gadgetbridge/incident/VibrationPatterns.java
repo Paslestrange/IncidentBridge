@@ -15,18 +15,24 @@ public class VibrationPatterns {
         if (severity == null) {
             return P4_GENTLE;
         }
+
+        int[] custom = VibrationPatternStore.loadPattern(severity);
+        if (custom != null) {
+            return custom;
+        }
+
         switch (severity.toUpperCase(java.util.Locale.ROOT)) {
-            case "P1":
-            case "SEV1":
-            case "CRITICAL":
+            case IncidentConstants.SEV_P1:
+            case IncidentConstants.SEV_SEV1:
+            case IncidentConstants.SEV_CRITICAL:
                 return P1_SOS;
-            case "P2":
-            case "SEV2":
-            case "HIGH":
+            case IncidentConstants.SEV_P2:
+            case IncidentConstants.SEV_SEV2:
+            case IncidentConstants.SEV_HIGH:
                 return P2_R;
-            case "P3":
-            case "SEV3":
-            case "MEDIUM":
+            case IncidentConstants.SEV_P3:
+            case IncidentConstants.SEV_SEV3:
+            case IncidentConstants.SEV_MEDIUM:
                 return P3_SINGLE;
             case "SUCCESS":
                 return SUCCESS_PATTERN;
