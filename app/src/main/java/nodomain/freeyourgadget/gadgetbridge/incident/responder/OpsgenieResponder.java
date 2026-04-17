@@ -5,39 +5,42 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
+import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
 
 public class OpsgenieResponder implements IncidentResponder {
     private static final Logger LOG = LoggerFactory.getLogger(OpsgenieResponder.class);
     private static final String API_BASE = "https://api.opsgenie.com/v2/alerts";
 
     @Override
-    public void acknowledge(String incidentId) {
-        sendPost(incidentId + "/acknowledge");
+    public ResponderResult acknowledge(String incidentId) {
+        return sendPost(incidentId + "/acknowledge");
     }
 
     @Override
-    public void escalate(String incidentId) {
-        sendPost(incidentId + "/escalate");
+    public ResponderResult escalate(String incidentId) {
+        return sendPost(incidentId + "/escalate");
     }
 
     @Override
-    public void resolve(String incidentId) {
-        sendPost(incidentId + "/close");
+    public ResponderResult resolve(String incidentId) {
+        return sendPost(incidentId + "/close");
     }
 
-    private void sendPost(String path) {
+    private ResponderResult sendPost(String path) {
         if (path == null || path.isEmpty()) {
             LOG.warn("Invalid path for Opsgenie");
-            return;
+            return ResponderResult.FAILED;
         }
         String apiKey = getApiKey();
         if (apiKey.isEmpty()) {
             LOG.warn("Opsgenie API key not configured");
-            return;
+            return ResponderResult.NO_CREDENTIALS;
         }
         HttpURLConnection conn = null;
         try {
@@ -57,11 +60,17 @@ public class OpsgenieResponder implements IncidentResponder {
             int responseCode = conn.getResponseCode();
             if (responseCode >= 200 && responseCode < 300) {
                 LOG.info("Opsgenie {} successful", path);
+                return ResponderResult.SUCCESS;
             } else {
                 LOG.warn("Opsgenie {} failed with code {}", path, responseCode);
+                return ResponderResult.FAILED;
             }
+        } catch (SocketTimeoutException e) {
+            LOG.error("Timeout while calling Opsgenie {}", path, e);
+            return ResponderResult.TIMEOUT;
         } catch (Exception e) {
             LOG.error("Failed to call Opsgenie {}", path, e);
+            return ResponderResult.FAILED;
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -70,6 +79,6 @@ public class OpsgenieResponder implements IncidentResponder {
     }
 
     private String getApiKey() {
-        return GBApplication.getPrefs().getString("opsgenie_api_key", "");
+        return GBApplication.getPrefs().getString(IncidentConstants.PREF_OPSGENIE_API_KEY, "");
     }
 }

@@ -5,40 +5,43 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
 
 public class PagerDutyResponder implements IncidentResponder {
     private static final Logger LOG = LoggerFactory.getLogger(PagerDutyResponder.class);
     private static final String API_BASE = "https://api.pagerduty.com/incidents";
 
     @Override
-    public void acknowledge(String incidentId) {
-        sendAction(incidentId, "acknowledged");
+    public ResponderResult acknowledge(String incidentId) {
+        return sendAction(incidentId, "acknowledged");
     }
 
     @Override
-    public void escalate(String incidentId) {
+    public ResponderResult escalate(String incidentId) {
         LOG.info("Escalate not directly supported via PagerDuty v2 API for incident {}", incidentId);
+        return ResponderResult.FAILED;
     }
 
     @Override
-    public void resolve(String incidentId) {
-        sendAction(incidentId, "resolved");
+    public ResponderResult resolve(String incidentId) {
+        return sendAction(incidentId, "resolved");
     }
 
-    private void sendAction(String incidentId, String status) {
+    private ResponderResult sendAction(String incidentId, String status) {
         if (incidentId == null || incidentId.isEmpty()) {
             LOG.warn("Invalid incidentId for PagerDuty {}", status);
-            return;
+            return ResponderResult.FAILED;
         }
         String token = getApiToken();
         String email = getUserEmail();
         if (token.isEmpty() || email.isEmpty()) {
             LOG.warn("PagerDuty credentials not configured");
-            return;
+            return ResponderResult.NO_CREDENTIALS;
         }
         HttpURLConnection conn = null;
         try {
@@ -61,11 +64,17 @@ public class PagerDutyResponder implements IncidentResponder {
             int responseCode = conn.getResponseCode();
             if (responseCode >= 200 && responseCode < 300) {
                 LOG.info("PagerDuty incident {} {} successful", incidentId, status);
+                return ResponderResult.SUCCESS;
             } else {
                 LOG.warn("PagerDuty incident {} {} failed with code {}", incidentId, status, responseCode);
+                return ResponderResult.FAILED;
             }
+        } catch (SocketTimeoutException e) {
+            LOG.error("Timeout while {} PagerDuty incident {}", status, incidentId, e);
+            return ResponderResult.TIMEOUT;
         } catch (Exception e) {
             LOG.error("Failed to {} PagerDuty incident {}", status, incidentId, e);
+            return ResponderResult.FAILED;
         } finally {
             if (conn != null) {
                 conn.disconnect();

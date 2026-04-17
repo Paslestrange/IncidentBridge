@@ -5,15 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class IncidentAppConfig {
-    public static final String PAGERDUTY = "com.pagerduty.android";
-    public static final String OPSGENIE = "com.opsgenie.app";
-    public static final String ROOTLY = "com.rootly.mobile";
-    public static final String SLACK = "com.Slack";
-
     private static final Set<String> INCIDENT_APPS = new HashSet<>(Arrays.asList(
-            PAGERDUTY,
-            OPSGENIE,
-            ROOTLY
+            IncidentConstants.PKG_PAGERDUTY,
+            IncidentConstants.PKG_OPSGENIE,
+            IncidentConstants.PKG_ROOTLY
     ));
 
     private IncidentAppConfig() {
@@ -24,9 +19,9 @@ public final class IncidentAppConfig {
     }
 
     public static IncidentProvider getProvider(String packageName) {
-        if (PAGERDUTY.equals(packageName)) return IncidentProvider.PAGERDUTY;
-        if (OPSGENIE.equals(packageName)) return IncidentProvider.OPSGENIE;
-        if (ROOTLY.equals(packageName)) return IncidentProvider.ROOTLY;
+        if (IncidentConstants.PKG_PAGERDUTY.equals(packageName)) return IncidentProvider.PAGERDUTY;
+        if (IncidentConstants.PKG_OPSGENIE.equals(packageName)) return IncidentProvider.OPSGENIE;
+        if (IncidentConstants.PKG_ROOTLY.equals(packageName)) return IncidentProvider.ROOTLY;
         return IncidentProvider.UNKNOWN;
     }
 
