@@ -50,6 +50,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
+import nodomain.freeyourgadget.gadgetbridge.incident.responder.IncidentResponder;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -486,16 +488,21 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     private void handleCannedSmsReply(final XiaomiProto.NotificationReply notificationReply) {
-        final String phoneNumber = notificationReply.getNumber();
-        if (phoneNumber == null) {
-            LOG.warn("Missing phone number for sms reply");
+        final String message = notificationReply.getMessage();
+        if (message == null) {
+            LOG.warn("Missing message for reply");
             ackSmsReply(false);
             return;
         }
 
-        final String message = notificationReply.getMessage();
-        if (message == null) {
-            LOG.warn("Missing message for sms reply");
+        final String phoneNumber = notificationReply.getNumber();
+
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            if (handleIncidentReply(message)) {
+                ackSmsReply(true);
+                return;
+            }
+            LOG.warn("Missing phone number for sms reply and not an incident reply");
             ackSmsReply(false);
             return;
         }
@@ -512,8 +519,41 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         final GBDeviceEventCallControl rejectCallCmd = new GBDeviceEventCallControl(GBDeviceEventCallControl.Event.REJECT);
         getSupport().evaluateGBDeviceEvent(rejectCallCmd);
 
-        // FIXME probably premature
         ackSmsReply(true);
+    }
+
+    private boolean handleIncidentReply(String message) {
+        if (!message.equals("Ack") && !message.equals("Esc") && !message.equals("Res")) {
+            return false;
+        }
+
+        LOG.info("Handling incident reply: {}", message);
+
+        IncidentMapping.IncidentInfo incident = IncidentMapping.getMostRecent();
+        if (incident == null) {
+            LOG.warn("No recent incident mapping found for reply");
+            return false;
+        }
+
+        IncidentResponder responder = IncidentResponder.getResponder(incident.provider);
+        if (responder == null) {
+            LOG.warn("No responder available for provider {}", incident.provider);
+            return false;
+        }
+
+        switch (message) {
+            case "Ack":
+                responder.acknowledge(incident.incidentId);
+                return true;
+            case "Esc":
+                responder.escalate(incident.incidentId);
+                return true;
+            case "Res":
+                responder.resolve(incident.incidentId);
+                return true;
+        }
+
+        return false;
     }
 
     private void ackSmsReply(final boolean success) {
