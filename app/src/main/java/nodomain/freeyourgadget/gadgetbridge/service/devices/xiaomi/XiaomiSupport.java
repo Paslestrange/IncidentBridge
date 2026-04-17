@@ -65,6 +65,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiSystemService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWeatherService;
+import nodomain.freeyourgadget.gadgetbridge.incident.VibrationPatterns;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiVibrationPatternConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -427,6 +429,13 @@ public class XiaomiSupport extends AbstractDeviceSupport {
                         .setSubtype(subtype)
                         .build()
         );
+    }
+
+    public void triggerIncidentVibration(String severity) {
+        int[] pattern = VibrationPatterns.getPattern(severity);
+        if (pattern != null && pattern.length > 0) {
+            systemService.testCustomVibration(XiaomiVibrationPatternConverter.convertPattern(pattern));
+        }
     }
 
     public XiaomiAuthService getAuthService() {

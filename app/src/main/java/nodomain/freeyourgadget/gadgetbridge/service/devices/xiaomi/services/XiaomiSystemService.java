@@ -100,6 +100,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_DEVICE_STATE_GET = 78;
     public static final int CMD_DEVICE_STATE = 79;
 
+    // Vibration commands
+    public static final int CMD_VIBRATION_PATTERNS_GET = 46;
+    public static final int CMD_VIBRATION_SET_PRESET = 47;
+    public static final int CMD_VIBRATION_PATTERN_CREATE = 58;
+    public static final int CMD_VIBRATION_TEST = 59;
+
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -232,6 +238,24 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 handleDeviceState(cmd.getSystem().hasDeviceState()
                         ? cmd.getSystem().getDeviceState()
                         : null);
+                return;
+            case CMD_VIBRATION_PATTERNS_GET:
+                LOG.debug("Got {} vibration patterns", cmd.getSystem().getVibrationPatterns().getVibrationPatternCount());
+                return;
+            case CMD_VIBRATION_SET_PRESET:
+                if (cmd.getSystem().hasVibrationPatternAck()) {
+                    LOG.debug("Got vibration preset set ack, status={}", cmd.getSystem().getVibrationPatternAck().getStatus());
+                } else {
+                    LOG.debug("Got vibration preset update");
+                }
+                return;
+            case CMD_VIBRATION_PATTERN_CREATE:
+                if (cmd.getSystem().hasVibrationPatternAck()) {
+                    LOG.debug("Got vibration pattern create ack, status={}", cmd.getSystem().getVibrationPatternAck().getStatus());
+                }
+                return;
+            case CMD_VIBRATION_TEST:
+                LOG.debug("Vibration test completed");
                 return;
         }
 
@@ -1008,5 +1032,51 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     @Override
     public void onDisconnect() {
         this.handler.removeCallbacks(this.batteryStateRequestRunnable);
+    }
+
+    public void getVibrationPatterns() {
+        getSupport().sendCommand("get vibration patterns", COMMAND_TYPE, CMD_VIBRATION_PATTERNS_GET);
+    }
+
+    public void setVibrationPreset(int notificationType, int preset) {
+        getSupport().sendCommand(
+            "set vibration preset",
+            XiaomiProto.Command.newBuilder()
+                .setType(COMMAND_TYPE)
+                .setSubtype(CMD_VIBRATION_SET_PRESET)
+                .setSystem(XiaomiProto.System.newBuilder()
+                    .setVibrationSetPreset(XiaomiProto.VibrationNotificationType.newBuilder()
+                        .setNotificationType(notificationType)
+                        .setPreset(preset)))
+                .build()
+        );
+    }
+
+    public void createCustomVibrationPattern(int id, String name, List<XiaomiProto.Vibration> vibrations) {
+        getSupport().sendCommand(
+            "create custom vibration pattern",
+            XiaomiProto.Command.newBuilder()
+                .setType(COMMAND_TYPE)
+                .setSubtype(CMD_VIBRATION_PATTERN_CREATE)
+                .setSystem(XiaomiProto.System.newBuilder()
+                    .setVibrationPatternCreate(XiaomiProto.CustomVibrationPattern.newBuilder()
+                        .setId(id)
+                        .setName(name)
+                        .addAllVibration(vibrations)))
+                .build()
+        );
+    }
+
+    public void testCustomVibration(List<XiaomiProto.Vibration> vibrations) {
+        getSupport().sendCommand(
+            "test custom vibration",
+            XiaomiProto.Command.newBuilder()
+                .setType(COMMAND_TYPE)
+                .setSubtype(CMD_VIBRATION_TEST)
+                .setSystem(XiaomiProto.System.newBuilder()
+                    .setVibrationTestCustom(XiaomiProto.VibrationTest.newBuilder()
+                        .addAllVibration(vibrations)))
+                .build()
+        );
     }
 }

@@ -242,6 +242,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         if (notificationSpec.severity != null) {
             LOG.info("Incident notification sent with severity {}", notificationSpec.severity);
+            getSupport().triggerIncidentVibration(notificationSpec.severity);
         }
     }
 
