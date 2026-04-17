@@ -240,7 +240,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                         : null);
                 return;
             case CMD_VIBRATION_PATTERNS_GET:
-                LOG.debug("Got {} vibration patterns", cmd.getSystem().getVibrationPatterns().getVibrationPatternCount());
+                LOG.debug("Got {} notification type vibration patterns", cmd.getSystem().getVibrationPatterns().getNotificationTypeCount());
                 return;
             case CMD_VIBRATION_SET_PRESET:
                 if (cmd.getSystem().hasVibrationPatternAck()) {
