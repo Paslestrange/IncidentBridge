@@ -70,4 +70,27 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_header_oncall_schedule">
+
+        <SwitchPreferenceCompat
+            android:key="oncall_schedule_enabled"
+            android:title="@string/pref_title_oncall_schedule"
+            android:summary="@string/pref_summary_oncall_schedule"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:key="oncall_start_time"
+            android:title="@string/pref_title_oncall_start"
+            android:defaultValue="09:00"
+            android:inputType="time" />
+
+        <EditTextPreference
+            android:key="oncall_end_time"
+            android:title="@string/pref_title_oncall_end"
+            android:defaultValue="18:00"
+            android:inputType="time" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

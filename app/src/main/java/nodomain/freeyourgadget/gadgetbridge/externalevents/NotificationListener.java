@@ -96,6 +96,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentParser;
+import nodomain.freeyourgadget.gadgetbridge.incident.OnCallSchedule;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
@@ -608,6 +609,12 @@ public class NotificationListener extends NotificationListenerService {
 
         if (IncidentAppConfig.isIncidentApp(source)) {
             notificationSpec.severity = IncidentParser.parseSeverity(notificationSpec.title, notificationSpec.body);
+
+            if (!OnCallSchedule.shouldForwardNotification(notificationSpec.severity)) {
+                LOG.info("Skipping incident notification outside on-call hours: {}", source);
+                return;
+            }
+
             String incidentId = IncidentParser.parseIncidentId(sbn);
             IncidentAppConfig.IncidentProvider provider = IncidentAppConfig.getProvider(source);
             if (incidentId != null) {

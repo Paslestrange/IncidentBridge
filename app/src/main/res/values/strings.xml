@@ -287,6 +287,11 @@
     <string name="pref_summary_incident_app_whitelist">Which apps can send incident notifications to your device</string>
     <string name="pref_title_incident_content_filter">Severity Keywords</string>
     <string name="pref_summary_incident_content_filter">Only forward notifications containing these keywords (comma-separated)</string>
+    <string name="pref_header_oncall_schedule">On-Call Schedule</string>
+    <string name="pref_title_oncall_schedule">Enable On-Call Hours</string>
+    <string name="pref_summary_oncall_schedule">Only forward non-critical incidents during configured hours</string>
+    <string name="pref_title_oncall_start">Start Time</string>
+    <string name="pref_title_oncall_end">End Time</string>
     <string name="pref_title_user_interface">User interface</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>

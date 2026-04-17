@@ -577,6 +577,14 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             String feedbackMsg = result == ResponderResult.SUCCESS ? "✓ " + message : "✗ Failed";
             WristFeedback.sendFeedback(feedbackMsg, result == ResponderResult.SUCCESS);
 
+            IncidentActionLogStore.addEntry(
+                    incident.provider.name(),
+                    incident.incidentId,
+                    message,
+                    result.name(),
+                    0
+            );
+
             // Trigger vibration
             if (result == ResponderResult.SUCCESS) {
                 getSupport().triggerIncidentVibration("SUCCESS");
