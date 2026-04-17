@@ -221,9 +221,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         if (IncidentAppConfig.isIncidentApp(notificationSpec.sourceAppId)) {
             notification3.setRepliesAllowed(true);
-            notification3.addReply("Ack");
-            notification3.addReply("Esc");
-            notification3.addReply("Res");
         }
 
         final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
