@@ -93,4 +93,32 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_header_webhook">
+
+        <SwitchPreferenceCompat
+            android:key="webhook_enabled"
+            android:title="@string/pref_title_webhook_enabled"
+            android:summary="@string/pref_summary_webhook_enabled"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:key="webhook_url"
+            android:title="@string/pref_title_webhook_url"
+            android:summary="@string/pref_summary_webhook_url"
+            android:inputType="textUri" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_contact_filter">
+
+        <EditTextPreference
+            android:key="escalation_contacts"
+            android:title="@string/pref_title_escalation_contacts"
+            android:summary="@string/pref_summary_escalation_contacts"
+            android:defaultValue="" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

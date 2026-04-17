@@ -292,6 +292,14 @@
     <string name="pref_summary_oncall_schedule">Only forward non-critical incidents during configured hours</string>
     <string name="pref_title_oncall_start">Start Time</string>
     <string name="pref_title_oncall_end">End Time</string>
+    <string name="pref_header_webhook">Webhook Integration</string>
+    <string name="pref_title_webhook_enabled">Enable Webhook</string>
+    <string name="pref_summary_webhook_enabled">Send incident actions to a custom webhook URL</string>
+    <string name="pref_title_webhook_url">Webhook URL</string>
+    <string name="pref_summary_webhook_url">URL to POST incident actions to</string>
+    <string name="pref_header_contact_filter">Contact Filtering</string>
+    <string name="pref_title_escalation_contacts">Escalation Contacts</string>
+    <string name="pref_summary_escalation_contacts">Comma-separated phone numbers that always trigger notifications</string>
     <string name="pref_title_user_interface">User interface</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>
