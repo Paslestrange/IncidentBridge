@@ -22,17 +22,32 @@
             android:summary="@string/pref_summary_pagerduty_user_email"
             android:inputType="textEmailAddress" />
 
+        <Preference
+            android:key="test_pagerduty_connection"
+            android:title="@string/pref_title_test_pagerduty_connection"
+            android:summary="@string/pref_summary_test_pagerduty_connection" />
+
         <EditTextPreference
             android:key="opsgenie_api_key"
             android:title="@string/pref_title_opsgenie_api_key"
             android:summary="@string/pref_summary_opsgenie_api_key"
             android:inputType="textPassword" />
 
+        <Preference
+            android:key="test_opsgenie_connection"
+            android:title="@string/pref_title_test_opsgenie_connection"
+            android:summary="@string/pref_summary_test_opsgenie_connection" />
+
         <EditTextPreference
             android:key="rootly_api_token"
             android:title="@string/pref_title_rootly_api_token"
             android:summary="@string/pref_summary_rootly_api_token"
             android:inputType="textPassword" />
+
+        <Preference
+            android:key="test_rootly_connection"
+            android:title="@string/pref_title_test_rootly_connection"
+            android:summary="@string/pref_summary_test_rootly_connection" />
 
     </PreferenceCategory>
 

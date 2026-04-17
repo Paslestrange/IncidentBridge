@@ -276,6 +276,12 @@
     <string name="pref_summary_opsgenie_api_key">Your Opsgenie integration or user API key</string>
     <string name="pref_title_rootly_api_token">Rootly API Token</string>
     <string name="pref_summary_rootly_api_token">Your Rootly API token for incident management</string>
+    <string name="pref_title_test_pagerduty_connection">Test PagerDuty Connection</string>
+    <string name="pref_summary_test_pagerduty_connection">Verify your PagerDuty API token and email are working</string>
+    <string name="pref_title_test_opsgenie_connection">Test Opsgenie Connection</string>
+    <string name="pref_summary_test_opsgenie_connection">Verify your Opsgenie API key is working</string>
+    <string name="pref_title_test_rootly_connection">Test Rootly Connection</string>
+    <string name="pref_summary_test_rootly_connection">Verify your Rootly API token is working</string>
     <string name="pref_header_incident_filtering">Filtering</string>
     <string name="pref_title_incident_app_whitelist">Incident Apps</string>
     <string name="pref_summary_incident_app_whitelist">Which apps can send incident notifications to your device</string>
