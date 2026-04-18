@@ -31,6 +31,7 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
@@ -58,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.incident.VibrationPatterns;
 import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRule;
 import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRuleStore;
 import nodomain.freeyourgadget.gadgetbridge.incident.WristFeedback;
+import nodomain.freeyourgadget.gadgetbridge.incident.log.IncidentActionLogStore;
 import nodomain.freeyourgadget.gadgetbridge.incident.responder.IncidentResponder;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -656,7 +658,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         getSupport().getDataUploadService().requestUpload(XiaomiDataUploadService.TYPE_NOTIFICATION_ICON, bitmap);
     }
 
-    @Override
     private void applyVibrationRules(NotificationSpec notificationSpec) {
         String text = (notificationSpec.title + " " + notificationSpec.body).toUpperCase();
         List<VibrationRule> rules = VibrationRuleStore.loadRules();
