@@ -13,4 +13,18 @@
         <item>com.rootly.mobile</item>
         <item>com.Slack</item>
     </string-array>
+
+    <string-array name="severity_levels">
+        <item>P1 - Critical</item>
+        <item>P2 - High</item>
+        <item>P3 - Medium</item>
+        <item>P4 - Low</item>
+    </string-array>
+
+    <string-array name="severity_values">
+        <item>P1</item>
+        <item>P2</item>
+        <item>P3</item>
+        <item>P4</item>
+    </string-array>
 </resources>

@@ -609,7 +609,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (IncidentAppConfig.isIncidentApp(source)) {
-            notificationSpec.severity = IncidentParser.parseSeverity(notificationSpec.title, notificationSpec.body);
+            notificationSpec.severity = IncidentParser.parseSeverity(notificationSpec.title, notificationSpec.body, sbn);
 
             if (!OnCallSchedule.shouldForwardNotification(notificationSpec.severity)) {
                 LOG.info("Skipping incident notification outside on-call hours: {}", source);

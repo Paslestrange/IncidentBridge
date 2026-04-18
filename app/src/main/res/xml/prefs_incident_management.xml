@@ -68,6 +68,20 @@
             android:summary="@string/pref_summary_incident_content_filter"
             android:defaultValue="P1,P2,CRITICAL,HIGH" />
 
+        <EditTextPreference
+            android:key="custom_severity_regex"
+            android:title="@string/pref_title_custom_regex"
+            android:summary="@string/pref_summary_custom_regex"
+            android:defaultValue="" />
+
+        <ListPreference
+            android:key="default_severity"
+            android:title="@string/pref_title_default_severity"
+            android:summary="@string/pref_summary_default_severity"
+            android:entries="@array/severity_levels"
+            android:entryValues="@array/severity_values"
+            android:defaultValue="P3" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

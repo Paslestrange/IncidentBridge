@@ -287,6 +287,10 @@
     <string name="pref_summary_incident_app_whitelist">Which apps can send incident notifications to your device</string>
     <string name="pref_title_incident_content_filter">Severity Keywords</string>
     <string name="pref_summary_incident_content_filter">Only forward notifications containing these keywords (comma-separated)</string>
+    <string name="pref_title_custom_regex">Custom Severity Regex</string>
+    <string name="pref_summary_custom_regex">Regex pattern to extract severity, e.g. (?i)\\[([A-Z]+)\\]</string>
+    <string name="pref_title_default_severity">Default Severity</string>
+    <string name="pref_summary_default_severity">When no severity is detected, use this level</string>
     <string name="pref_header_oncall_schedule">On-Call Schedule</string>
     <string name="pref_title_oncall_schedule">Enable On-Call Hours</string>
     <string name="pref_summary_oncall_schedule">Only forward non-critical incidents during configured hours</string>

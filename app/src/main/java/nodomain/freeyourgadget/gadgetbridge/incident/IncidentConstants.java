@@ -33,6 +33,8 @@ public final class IncidentConstants {
     public static final String PREF_TEST_ROOTLY_CONNECTION = "test_rootly_connection";
     public static final String PREF_INCIDENT_APP_WHITELIST = "incident_app_whitelist";
     public static final String PREF_INCIDENT_CONTENT_FILTER = "incident_content_filter";
+    public static final String PREF_DEFAULT_SEVERITY = "default_severity";
+    public static final String PREF_CUSTOM_REGEX = "custom_severity_regex";
 
     public static final String EXTRA_INCIDENT_ID = "incident_id";
 
