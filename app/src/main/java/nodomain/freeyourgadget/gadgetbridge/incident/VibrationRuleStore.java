@@ -19,13 +19,18 @@ public class VibrationRuleStore {
         List<VibrationRule> rules = new ArrayList<>();
         String json = GBApplication.getPrefs().getString(PREF_VIBRATION_RULES, "");
         if (json.isEmpty()) {
-            return getDefaultRules();
+            List<VibrationRule> defaults = getDefaultRules();
+            saveRules(defaults);
+            return defaults;
         }
         try {
             JSONArray array = new JSONArray(json);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 String id = obj.optString("id", "");
+                if (id.isEmpty()) {
+                    id = java.util.UUID.randomUUID().toString();
+                }
                 String name = obj.optString("name", "Rule " + (i + 1));
                 String keyword = obj.optString("keyword", "");
                 JSONArray patternArr = obj.getJSONArray("pattern");
@@ -40,9 +45,22 @@ public class VibrationRuleStore {
             }
         } catch (JSONException e) {
             LOG.error("Failed to parse vibration rules", e);
-            return getDefaultRules();
+            List<VibrationRule> defaults = getDefaultRules();
+            saveRules(defaults);
+            return defaults;
         }
-        return rules;
+        return deduplicateByName(rules);
+    }
+
+    private static List<VibrationRule> deduplicateByName(List<VibrationRule> rules) {
+        List<VibrationRule> unique = new ArrayList<>();
+        java.util.Set<String> seen = new java.util.HashSet<>();
+        for (VibrationRule rule : rules) {
+            if (seen.add(rule.name)) {
+                unique.add(rule);
+            }
+        }
+        return unique;
     }
 
     public static void saveRules(List<VibrationRule> rules) {

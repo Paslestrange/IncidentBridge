@@ -7,7 +7,10 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.incident.ConnectionTester;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -39,6 +42,34 @@ public class IncidentManagementPreferencesActivity extends AbstractGBActivity {
             setupCustomRulesLink();
             setupDeviceSelectionLink();
             setupResetRules();
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            updateDeviceSelectionSummary();
+        }
+
+        private void updateDeviceSelectionSummary() {
+            Preference devicePref = findPreference("select_incident_device");
+            if (devicePref != null) {
+                String address = GBApplication.getPrefs().getString(IncidentConstants.PREF_INCIDENT_DEVICE, "");
+                String summary;
+                if (address.isEmpty()) {
+                    summary = getString(R.string.no_device_selected);
+                } else {
+                    DeviceManager dm = ((GBApplication) getActivity().getApplication()).getDeviceManager();
+                    String name = null;
+                    for (GBDevice d : dm.getDevices()) {
+                        if (d.getAddress().equals(address)) {
+                            name = d.getName();
+                            break;
+                        }
+                    }
+                    summary = name != null ? name : address;
+                }
+                devicePref.setSummary(summary);
+            }
         }
 
         private void setupTestConnectionPreference(String key, TestConnectionRunnable testRunnable) {

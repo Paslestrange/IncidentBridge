@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSelectionActivity extends AbstractGBActivity {
@@ -45,7 +47,7 @@ public class DeviceSelectionActivity extends AbstractGBActivity {
         adapter = new DeviceAdapter();
         recyclerView.setAdapter(adapter);
 
-        currentSelection = getIntent().getStringExtra(EXTRA_SELECTED_DEVICE);
+        currentSelection = GBApplication.getPrefs().getString(IncidentConstants.PREF_INCIDENT_DEVICE, "");
         loadDevices();
     }
 
@@ -64,9 +66,8 @@ public class DeviceSelectionActivity extends AbstractGBActivity {
     }
 
     private void selectDevice(GBDevice device) {
-        Intent result = new Intent();
-        result.putExtra(EXTRA_SELECTED_DEVICE, device.getAddress());
-        setResult(RESULT_OK, result);
+        GBApplication.getPrefs().getPreferences().edit().putString(IncidentConstants.PREF_INCIDENT_DEVICE, device.getAddress()).apply();
+        GB.toast(this, getString(R.string.device_selected_toast, device.getName()), Toast.LENGTH_SHORT, GB.INFO);
         finish();
     }
 
@@ -85,7 +86,9 @@ public class DeviceSelectionActivity extends AbstractGBActivity {
             holder.nameText.setText(device.getName());
             holder.addressText.setText(device.getAddress());
             holder.statusText.setText(device.isConnected() ? R.string.device_connected : R.string.device_disconnected);
-            holder.radioButton.setChecked(device.getAddress().equals(currentSelection));
+            boolean isSelected = device.getAddress().equals(currentSelection);
+            holder.radioButton.setChecked(isSelected);
+            holder.selectedLabel.setVisibility(isSelected ? View.VISIBLE : View.GONE);
             holder.itemView.setOnClickListener(v -> {
                 currentSelection = device.getAddress();
                 notifyDataSetChanged();
@@ -104,6 +107,7 @@ public class DeviceSelectionActivity extends AbstractGBActivity {
             TextView nameText;
             TextView addressText;
             TextView statusText;
+            TextView selectedLabel;
 
             ViewHolder(View itemView) {
                 super(itemView);
@@ -111,6 +115,7 @@ public class DeviceSelectionActivity extends AbstractGBActivity {
                 nameText = itemView.findViewById(R.id.device_name);
                 addressText = itemView.findViewById(R.id.device_address);
                 statusText = itemView.findViewById(R.id.device_status);
+                selectedLabel = itemView.findViewById(R.id.device_selected_label);
             }
         }
     }

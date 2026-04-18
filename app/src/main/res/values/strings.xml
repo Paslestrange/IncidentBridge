@@ -332,6 +332,9 @@
     <string name="no_devices_found">No devices found</string>
     <string name="device_connected">Connected</string>
     <string name="device_disconnected">Disconnected</string>
+    <string name="device_selected_for_incidents">Selected for incidents</string>
+    <string name="device_selected_toast">%1$s selected for incident notifications</string>
+    <string name="no_device_selected">No device selected</string>
     <string name="pref_header_oncall_schedule">On-Call Schedule</string>
     <string name="pref_title_oncall_schedule">Enable On-Call Hours</string>
     <string name="pref_summary_oncall_schedule">Only forward non-critical incidents during configured hours</string>

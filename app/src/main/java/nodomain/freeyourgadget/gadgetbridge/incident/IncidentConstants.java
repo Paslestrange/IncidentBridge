@@ -55,6 +55,7 @@ public final class IncidentConstants {
     public static final String PREF_WEBHOOK_ENABLED = "webhook_enabled";
 
     public static final String PREF_ESCALATION_CONTACTS = "escalation_contacts";
+    public static final String PREF_INCIDENT_DEVICE = "incident_device_address";
 
     public static final String URL_PAGERDUTY_API = "https://api.pagerduty.com/incidents";
     public static final String URL_OPSGENIE_API = "https://api.opsgenie.com/v2/alerts";
