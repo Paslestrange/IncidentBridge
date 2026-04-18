@@ -16,6 +16,10 @@ public class IncidentMapping {
         return mappings.get(notificationKey);
     }
 
+    public static String getMostRecentKey() {
+        return mostRecentKey.get();
+    }
+
     public static IncidentInfo getMostRecent() {
         String key = mostRecentKey.get();
         if (key != null) {

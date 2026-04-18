@@ -51,10 +51,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
+import nodomain.freeyourgadget.gadgetbridge.incident.RepeatingVibrationManager;
 import nodomain.freeyourgadget.gadgetbridge.incident.ResponderResult;
 import nodomain.freeyourgadget.gadgetbridge.incident.VibrationPatterns;
+import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRule;
+import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRuleStore;
 import nodomain.freeyourgadget.gadgetbridge.incident.WristFeedback;
-import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
 import nodomain.freeyourgadget.gadgetbridge.incident.responder.IncidentResponder;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -247,7 +250,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         if (notificationSpec.severity != null) {
             LOG.info("Incident notification sent with severity {}", notificationSpec.severity);
-            getSupport().triggerIncidentVibration(notificationSpec.severity);
+            applyVibrationRules(notificationSpec);
         }
     }
 
@@ -261,6 +264,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             LOG.warn("Unable to lookup notification {} to delete", id);
             return;
         }
+
+        String notificationKey = mNotificationKey.lookup(id);
+        RepeatingVibrationManager.stopRepeatingVibration(notificationKey);
 
         final XiaomiProto.NotificationId notificationId = XiaomiProto.NotificationId.newBuilder()
                 .setId(id)
@@ -585,6 +591,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                     0
             );
 
+            if (message.equals(IncidentConstants.ACTION_ACK) || message.equals(IncidentConstants.ACTION_RES)) {
+                RepeatingVibrationManager.stopRepeatingVibration(IncidentMapping.getMostRecentKey());
+            }
+
             // Trigger vibration
             if (result == ResponderResult.SUCCESS) {
                 getSupport().triggerIncidentVibration("SUCCESS");
@@ -647,6 +657,26 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     @Override
+    private void applyVibrationRules(NotificationSpec notificationSpec) {
+        String text = (notificationSpec.title + " " + notificationSpec.body).toUpperCase();
+        List<VibrationRule> rules = VibrationRuleStore.loadRules();
+        for (VibrationRule rule : rules) {
+            if (rule.matches(text, notificationSpec.severity)) {
+                getSupport().triggerIncidentVibration(rule.pattern);
+                if (rule.repeatUntilAcked && notificationSpec.key != null) {
+                    RepeatingVibrationManager.startRepeatingVibration(
+                            notificationSpec.key,
+                            rule.pattern,
+                            rule.repeatIntervalMs,
+                            getSupport()
+                    );
+                }
+                return;
+            }
+        }
+        getSupport().triggerIncidentVibration(notificationSpec.severity);
+    }
+
     public void onUploadFinish(final boolean success) {
         LOG.debug("Notification icon upload finished: {}", success);
         getSupport().getConnectionSpecificSupport().runOnQueue(

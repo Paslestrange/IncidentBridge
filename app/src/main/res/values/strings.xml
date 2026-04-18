@@ -291,6 +291,17 @@
     <string name="pref_summary_custom_regex">Regex pattern to extract severity, e.g. (?i)\\[([A-Z]+)\\]</string>
     <string name="pref_title_default_severity">Default Severity</string>
     <string name="pref_summary_default_severity">When no severity is detected, use this level</string>
+    <string name="pref_header_vibration_rules">Vibration Rules</string>
+    <string name="pref_title_vibration_rules">Current Rules</string>
+    <string name="pref_summary_vibration_rules">P1: repeating strong, P2: single strong, P3: medium, P4: gentle</string>
+    <string name="pref_title_p1_repeat">P1 Repeat Until Acked</string>
+    <string name="pref_summary_p1_repeat">Keep vibrating every interval until acknowledged</string>
+    <string name="pref_title_p1_interval">P1 Repeat Interval</string>
+    <string name="pref_summary_p1_interval">Milliseconds between repeats (default: 15000)</string>
+    <string name="pref_title_p2_repeat">P2 Repeat</string>
+    <string name="pref_summary_p2_repeat">Repeat P2 vibration until acknowledged</string>
+    <string name="pref_title_reset_rules">Reset to Defaults</string>
+    <string name="pref_summary_reset_rules">Restore factory vibration rules</string>
     <string name="pref_header_oncall_schedule">On-Call Schedule</string>
     <string name="pref_title_oncall_schedule">Enable On-Call Hours</string>
     <string name="pref_summary_oncall_schedule">Only forward non-critical incidents during configured hours</string>

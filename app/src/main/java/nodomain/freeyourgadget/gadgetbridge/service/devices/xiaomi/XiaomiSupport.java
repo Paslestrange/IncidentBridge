@@ -433,6 +433,10 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     public void triggerIncidentVibration(String severity) {
         int[] pattern = VibrationPatterns.getPattern(severity);
+        triggerIncidentVibration(pattern);
+    }
+
+    public void triggerIncidentVibration(int[] pattern) {
         if (pattern != null && pattern.length > 0) {
             systemService.testCustomVibration(XiaomiVibrationPatternConverter.convertPattern(pattern));
         }
