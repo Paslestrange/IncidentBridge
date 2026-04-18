@@ -31,7 +31,6 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 
@@ -659,23 +658,23 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     private void applyVibrationRules(NotificationSpec notificationSpec) {
-        String text = (notificationSpec.title + " " + notificationSpec.body).toUpperCase();
-        List<VibrationRule> rules = VibrationRuleStore.loadRules();
-        for (VibrationRule rule : rules) {
-            if (rule.matches(text, notificationSpec.severity)) {
-                getSupport().triggerIncidentVibration(rule.pattern);
-                if (rule.repeatUntilAcked && notificationSpec.key != null) {
-                    RepeatingVibrationManager.startRepeatingVibration(
-                            notificationSpec.key,
-                            rule.pattern,
-                            rule.repeatIntervalMs,
-                            getSupport()
-                    );
-                }
-                return;
+        String text = notificationSpec.title + " " + notificationSpec.body;
+        VibrationRule rule = VibrationRuleStore.findMatchingRule(text);
+        if (rule != null) {
+            LOG.info("Matched vibration rule '{}' for notification", rule.name);
+            getSupport().triggerIncidentVibration(rule.pattern);
+            if (rule.repeatUntilAcked && notificationSpec.key != null) {
+                RepeatingVibrationManager.startRepeatingVibration(
+                        notificationSpec.key,
+                        rule.pattern,
+                        rule.repeatIntervalMs,
+                        getSupport()
+                );
             }
+        } else {
+            LOG.info("No vibration rule matched, using severity fallback");
+            getSupport().triggerIncidentVibration(notificationSpec.severity);
         }
-        getSupport().triggerIncidentVibration(notificationSpec.severity);
     }
 
     public void onUploadFinish(final boolean success) {

@@ -1,34 +1,33 @@
 package nodomain.freeyourgadget.gadgetbridge.incident;
 
 public class VibrationRule {
+    public String name;
     public String keyword;
     public int[] pattern;
     public boolean repeatUntilAcked;
     public int repeatIntervalMs;
-    public String severity;
+    public boolean enabled;
 
-    public VibrationRule(String keyword, int[] pattern, boolean repeatUntilAcked, int repeatIntervalMs) {
+    public VibrationRule(String name, String keyword, int[] pattern, boolean repeatUntilAcked, int repeatIntervalMs, boolean enabled) {
+        this.name = name;
         this.keyword = keyword;
         this.pattern = pattern;
         this.repeatUntilAcked = repeatUntilAcked;
         this.repeatIntervalMs = repeatIntervalMs;
-        this.severity = null;
+        this.enabled = enabled;
     }
 
-    public VibrationRule(String severity, int[] pattern, boolean repeatUntilAcked, int repeatIntervalMs, boolean isSeverityRule) {
-        this.keyword = null;
-        this.severity = severity;
-        this.pattern = pattern;
-        this.repeatUntilAcked = repeatUntilAcked;
-        this.repeatIntervalMs = repeatIntervalMs;
-    }
-
-    public boolean matches(String text, String severity) {
-        if (this.severity != null && this.severity.equalsIgnoreCase(severity)) {
-            return true;
+    public boolean matches(String text) {
+        if (!enabled || keyword == null || text == null) {
+            return false;
         }
-        if (this.keyword != null && text != null && text.toUpperCase().contains(this.keyword.toUpperCase())) {
-            return true;
+        String upperText = text.toUpperCase();
+        String[] keywords = keyword.toUpperCase().split(",");
+        for (String k : keywords) {
+            k = k.trim();
+            if (!k.isEmpty() && upperText.contains(k)) {
+                return true;
+            }
         }
         return false;
     }

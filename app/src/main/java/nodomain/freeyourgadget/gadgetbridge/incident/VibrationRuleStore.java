@@ -25,21 +25,17 @@ public class VibrationRuleStore {
             JSONArray array = new JSONArray(json);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                String keyword = obj.optString("keyword", null);
-                String severity = obj.optString("severity", null);
+                String name = obj.optString("name", "Rule " + (i + 1));
+                String keyword = obj.optString("keyword", "");
                 JSONArray patternArr = obj.getJSONArray("pattern");
                 int[] pattern = new int[patternArr.length()];
                 for (int j = 0; j < patternArr.length(); j++) {
                     pattern[j] = patternArr.getInt(j);
                 }
                 boolean repeat = obj.optBoolean("repeat", false);
-                int interval = obj.optInt("interval", 30000);
-                
-                if (severity != null && !severity.isEmpty()) {
-                    rules.add(new VibrationRule(severity, pattern, repeat, interval, true));
-                } else {
-                    rules.add(new VibrationRule(keyword, pattern, repeat, interval));
-                }
+                int interval = obj.optInt("interval", 15000);
+                boolean enabled = obj.optBoolean("enabled", true);
+                rules.add(new VibrationRule(name, keyword, pattern, repeat, interval, enabled));
             }
         } catch (JSONException e) {
             LOG.error("Failed to parse vibration rules", e);
@@ -53,8 +49,8 @@ public class VibrationRuleStore {
             JSONArray array = new JSONArray();
             for (VibrationRule rule : rules) {
                 JSONObject obj = new JSONObject();
-                if (rule.keyword != null) obj.put("keyword", rule.keyword);
-                if (rule.severity != null) obj.put("severity", rule.severity);
+                obj.put("name", rule.name);
+                obj.put("keyword", rule.keyword);
                 JSONArray patternArr = new JSONArray();
                 for (int p : rule.pattern) {
                     patternArr.put(p);
@@ -62,6 +58,7 @@ public class VibrationRuleStore {
                 obj.put("pattern", patternArr);
                 obj.put("repeat", rule.repeatUntilAcked);
                 obj.put("interval", rule.repeatIntervalMs);
+                obj.put("enabled", rule.enabled);
                 array.put(obj);
             }
             GBApplication.getPrefs().getPreferences().edit().putString(PREF_VIBRATION_RULES, array.toString()).apply();
@@ -72,25 +69,52 @@ public class VibrationRuleStore {
 
     public static List<VibrationRule> getDefaultRules() {
         List<VibrationRule> rules = new ArrayList<>();
-        boolean p1Repeat = GBApplication.getPrefs().getBoolean("p1_repeat", true);
-        int p1Interval = parseInterval(GBApplication.getPrefs().getString("p1_interval", "15000"));
-        boolean p2Repeat = GBApplication.getPrefs().getBoolean("p2_repeat", false);
-        rules.add(new VibrationRule(IncidentConstants.SEV_P1, new int[]{400, 100, 400, 100, 400}, p1Repeat, p1Interval, true));
-        rules.add(new VibrationRule(IncidentConstants.SEV_P2, new int[]{400, 100, 400}, p2Repeat, p1Interval, true));
-        rules.add(new VibrationRule(IncidentConstants.SEV_P3, new int[]{200, 100, 200}, false, 0, true));
-        rules.add(new VibrationRule(IncidentConstants.SEV_P4, new int[]{100}, false, 0, true));
+        rules.add(new VibrationRule(
+            "P1 / Critical",
+            "P1,CRITICAL,SEV1",
+            new int[]{400, 100, 400, 100, 400},
+            true,
+            15000,
+            true
+        ));
+        rules.add(new VibrationRule(
+            "P2 / High",
+            "P2,HIGH,SEV2",
+            new int[]{200, 50, 200, 50, 200},
+            false,
+            0,
+            true
+        ));
+        rules.add(new VibrationRule(
+            "P3 / Medium",
+            "P3,MEDIUM,SEV3",
+            new int[]{200, 50, 200},
+            false,
+            0,
+            true
+        ));
+        rules.add(new VibrationRule(
+            "P4 / Low",
+            "P4,LOW,SEV4",
+            new int[]{100},
+            false,
+            0,
+            false
+        ));
         return rules;
-    }
-
-    private static int parseInterval(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 15000;
-        }
     }
 
     public static void resetToDefaults() {
         saveRules(getDefaultRules());
+    }
+
+    public static VibrationRule findMatchingRule(String text) {
+        List<VibrationRule> rules = loadRules();
+        for (VibrationRule rule : rules) {
+            if (rule.matches(text)) {
+                return rule;
+            }
+        }
+        return null;
     }
 }

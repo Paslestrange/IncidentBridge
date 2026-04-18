@@ -85,6 +85,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="vibration_rules_category"
         android:title="@string/pref_header_vibration_rules">
 
         <Preference
@@ -92,25 +93,6 @@
             android:title="@string/pref_title_vibration_rules"
             android:summary="@string/pref_summary_vibration_rules"
             android:enabled="false" />
-
-        <SwitchPreferenceCompat
-            android:key="p1_repeat"
-            android:title="@string/pref_title_p1_repeat"
-            android:summary="@string/pref_summary_p1_repeat"
-            android:defaultValue="true" />
-
-        <EditTextPreference
-            android:key="p1_interval"
-            android:title="@string/pref_title_p1_interval"
-            android:summary="@string/pref_summary_p1_interval"
-            android:defaultValue="15000"
-            android:inputType="number" />
-
-        <SwitchPreferenceCompat
-            android:key="p2_repeat"
-            android:title="@string/pref_title_p2_repeat"
-            android:summary="@string/pref_summary_p2_repeat"
-            android:defaultValue="false" />
 
         <Preference
             android:key="reset_vibration_rules"
