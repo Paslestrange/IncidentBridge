@@ -89,10 +89,14 @@
         android:title="@string/pref_header_vibration_rules">
 
         <Preference
-            android:key="vibration_rules_summary"
-            android:title="@string/pref_title_vibration_rules"
-            android:summary="@string/pref_summary_vibration_rules"
-            android:enabled="false" />
+            android:key="custom_vibration_rules"
+            android:title="@string/pref_title_custom_vibration_rules"
+            android:summary="@string/pref_summary_custom_vibration_rules" />
+
+        <Preference
+            android:key="select_incident_device"
+            android:title="@string/pref_title_select_incident_device"
+            android:summary="@string/pref_summary_select_incident_device" />
 
         <Preference
             android:key="reset_vibration_rules"

@@ -775,6 +775,18 @@
             android:parentActivityName=".activities.ControlCenterv2"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.CustomVibrationRulesActivity"
+            android:label="@string/pref_title_custom_vibration_rules"
+            android:parentActivityName=".activities.IncidentManagementPreferencesActivity" />
+        <activity
+            android:name=".activities.AddEditVibrationRuleActivity"
+            android:label="@string/title_add_vibration_rule"
+            android:parentActivityName=".activities.CustomVibrationRulesActivity" />
+        <activity
+            android:name=".activities.DeviceSelectionActivity"
+            android:label="@string/title_select_device"
+            android:parentActivityName=".activities.IncidentManagementPreferencesActivity" />
+        <activity
             android:name=".activities.discovery.DiscoveryActivityV2"
             android:label="@string/title_activity_discovery"
             android:parentActivityName=".activities.ControlCenterv2" />

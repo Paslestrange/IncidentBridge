@@ -25,6 +25,7 @@ public class VibrationRuleStore {
             JSONArray array = new JSONArray(json);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
+                String id = obj.optString("id", "");
                 String name = obj.optString("name", "Rule " + (i + 1));
                 String keyword = obj.optString("keyword", "");
                 JSONArray patternArr = obj.getJSONArray("pattern");
@@ -35,7 +36,7 @@ public class VibrationRuleStore {
                 boolean repeat = obj.optBoolean("repeat", false);
                 int interval = obj.optInt("interval", 15000);
                 boolean enabled = obj.optBoolean("enabled", true);
-                rules.add(new VibrationRule(name, keyword, pattern, repeat, interval, enabled));
+                rules.add(new VibrationRule(id, name, keyword, pattern, repeat, interval, enabled));
             }
         } catch (JSONException e) {
             LOG.error("Failed to parse vibration rules", e);
@@ -49,6 +50,7 @@ public class VibrationRuleStore {
             JSONArray array = new JSONArray();
             for (VibrationRule rule : rules) {
                 JSONObject obj = new JSONObject();
+                obj.put("id", rule.id);
                 obj.put("name", rule.name);
                 obj.put("keyword", rule.keyword);
                 JSONArray patternArr = new JSONArray();
@@ -116,5 +118,36 @@ public class VibrationRuleStore {
             }
         }
         return null;
+    }
+
+    public static void addRule(VibrationRule rule) {
+        List<VibrationRule> rules = loadRules();
+        rules.add(rule);
+        saveRules(rules);
+    }
+
+    public static void updateRule(VibrationRule updatedRule) {
+        List<VibrationRule> rules = loadRules();
+        for (int i = 0; i < rules.size(); i++) {
+            if (rules.get(i).id.equals(updatedRule.id)) {
+                rules.set(i, updatedRule);
+                saveRules(rules);
+                return;
+            }
+        }
+    }
+
+    public static void deleteRule(String ruleId) {
+        List<VibrationRule> rules = loadRules();
+        rules.removeIf(rule -> rule.id.equals(ruleId));
+        saveRules(rules);
+    }
+
+    public static void deleteRule(int index) {
+        List<VibrationRule> rules = loadRules();
+        if (index >= 0 && index < rules.size()) {
+            rules.remove(index);
+            saveRules(rules);
+        }
     }
 }

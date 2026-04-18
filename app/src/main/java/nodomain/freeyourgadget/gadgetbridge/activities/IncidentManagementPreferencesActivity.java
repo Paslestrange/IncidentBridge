@@ -1,25 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.widget.Toast;
 
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreferenceCompat;
 
-import java.util.Arrays;
-import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.incident.ConnectionTester;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
-import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRule;
-import nodomain.freeyourgadget.gadgetbridge.incident.VibrationRuleStore;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class IncidentManagementPreferencesActivity extends AbstractGBActivity {
@@ -46,7 +36,8 @@ public class IncidentManagementPreferencesActivity extends AbstractGBActivity {
             setupTestConnectionPreference(IncidentConstants.PREF_TEST_OPSGENIE_CONNECTION, ConnectionTester::testOpsgenie);
             setupTestConnectionPreference(IncidentConstants.PREF_TEST_ROOTLY_CONNECTION, ConnectionTester::testRootly);
 
-            setupVibrationRules();
+            setupCustomRulesLink();
+            setupDeviceSelectionLink();
             setupResetRules();
         }
 
@@ -67,90 +58,36 @@ public class IncidentManagementPreferencesActivity extends AbstractGBActivity {
             }
         }
 
-        private void setupVibrationRules() {
-            PreferenceCategory category = findPreference("vibration_rules_category");
-            if (category == null) {
-                return;
-            }
-
-            List<Preference> stalePreferences = new java.util.ArrayList<>();
-            for (int i = 0; i < category.getPreferenceCount(); i++) {
-                Preference pref = category.getPreference(i);
-                String key = pref.getKey();
-                if (key != null && key.startsWith("vibration_rule_")) {
-                    stalePreferences.add(pref);
-                }
-            }
-            for (Preference pref : stalePreferences) {
-                category.removePreference(pref);
-            }
-
-            List<VibrationRule> rules = VibrationRuleStore.loadRules();
-            for (int i = 0; i < rules.size(); i++) {
-                final VibrationRule rule = rules.get(i);
-
-                SwitchPreferenceCompat enabledSwitch = new SwitchPreferenceCompat(requireContext());
-                enabledSwitch.setKey("vibration_rule_" + i + "_enabled");
-                enabledSwitch.setTitle(rule.name);
-                enabledSwitch.setSummary(getString(R.string.pref_summary_vibration_rule_keyword, rule.keyword));
-                enabledSwitch.setChecked(rule.enabled);
-                enabledSwitch.setOnPreferenceChangeListener((pref, newValue) -> {
-                    rule.enabled = (Boolean) newValue;
-                    saveRules(rules);
+        private void setupCustomRulesLink() {
+            Preference rulesPref = findPreference("custom_vibration_rules");
+            if (rulesPref != null) {
+                rulesPref.setOnPreferenceClickListener(p -> {
+                    Intent intent = new Intent(getActivity(), CustomVibrationRulesActivity.class);
+                    startActivity(intent);
                     return true;
                 });
-                category.addPreference(enabledSwitch);
-
-                Preference testPref = new Preference(requireContext());
-                testPref.setKey("vibration_rule_" + i + "_test");
-                testPref.setTitle(R.string.pref_title_test_vibration);
-                testPref.setSummary(getString(R.string.pref_summary_test_vibration, Arrays.toString(rule.pattern)));
-                testPref.setOnPreferenceClickListener(p -> {
-                    testVibration(rule.pattern);
-                    return true;
-                });
-                category.addPreference(testPref);
             }
         }
 
-        private void saveRules(List<VibrationRule> rules) {
-            VibrationRuleStore.saveRules(rules);
+        private void setupDeviceSelectionLink() {
+            Preference devicePref = findPreference("select_incident_device");
+            if (devicePref != null) {
+                devicePref.setOnPreferenceClickListener(p -> {
+                    Intent intent = new Intent(getActivity(), DeviceSelectionActivity.class);
+                    startActivity(intent);
+                    return true;
+                });
+            }
         }
 
         private void setupResetRules() {
             Preference resetPref = findPreference("reset_vibration_rules");
             if (resetPref != null) {
                 resetPref.setOnPreferenceClickListener(p -> {
-                    VibrationRuleStore.resetToDefaults();
-                    setupVibrationRules();
+                    nodomain.freeyourgadget.gadgetbridge.incident.VibrationRuleStore.resetToDefaults();
                     GB.toast(getActivity(), R.string.pref_toast_rules_reset, Toast.LENGTH_SHORT, GB.INFO);
                     return true;
                 });
-            }
-        }
-
-        private void testVibration(int[] pattern) {
-            Context context = requireContext();
-            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            if (vibrator == null || !vibrator.hasVibrator()) {
-                GB.toast(context, R.string.pref_toast_no_vibrator, Toast.LENGTH_SHORT, GB.ERROR);
-                return;
-            }
-
-            long[] timings = new long[pattern.length];
-            for (int i = 0; i < pattern.length; i++) {
-                timings[i] = pattern[i];
-            }
-
-            try {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createWaveform(timings, -1));
-                } else {
-                    vibrator.vibrate(timings, -1);
-                }
-                GB.toast(context, R.string.pref_toast_vibration_tested, Toast.LENGTH_SHORT, GB.INFO);
-            } catch (Exception e) {
-                GB.toast(context, R.string.pref_toast_vibration_failed, Toast.LENGTH_SHORT, GB.ERROR);
             }
         }
 
