@@ -183,8 +183,14 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void onNotification(final NotificationSpec notificationSpec) {
-        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
-            LOG.debug("App notifications disabled - ignoring");
+        boolean isIncidentApp = IncidentAppConfig.isIncidentApp(notificationSpec.sourceAppId);
+        boolean incidentEnabled = nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs().getBoolean(
+                IncidentConstants.PREF_INCIDENT_MANAGEMENT_ENABLED, true);
+        boolean appNotificationsEnabled = getDevicePrefs().getBoolean(
+                DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true);
+
+        if (!appNotificationsEnabled && !(isIncidentApp && incidentEnabled)) {
+            LOG.debug("App notifications disabled and not an incident notification - ignoring");
             return;
         }
 

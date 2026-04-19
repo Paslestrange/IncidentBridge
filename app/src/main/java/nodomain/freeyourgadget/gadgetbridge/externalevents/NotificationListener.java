@@ -95,6 +95,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.incident.DndIntegration;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentAppConfig;
+import nodomain.freeyourgadget.gadgetbridge.incident.IncidentConstants;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentMapping;
 import nodomain.freeyourgadget.gadgetbridge.incident.IncidentParser;
 import nodomain.freeyourgadget.gadgetbridge.incident.OnCallSchedule;
@@ -404,14 +405,15 @@ public class NotificationListener extends NotificationListenerService {
 
         final boolean hasPicture = notificationHasPicture(sbn.getNotification());
 
-        if (shouldIgnoreNotification(sbn, false, hasPicture)) {
+        String source = sbn.getPackageName();
+        boolean isIncidentEnabled = isIncidentModeEnabled(source);
+
+        if (!isIncidentEnabled && shouldIgnoreNotification(sbn, false, hasPicture)) {
             if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {  // workaround to allow phone alarm notification
                 LOG.info("Ignoring notification: {}", sbn.getPackageName());          // need to fix
                 return;
             }
         }
-
-        String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
 
         Long notificationOldRepeatPreventionValue = notificationOldRepeatPrevention.get(source);
@@ -496,7 +498,7 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
-        if (notificationSpec.title != null || notificationSpec.body != null) {
+        if (!isIncidentEnabled && (notificationSpec.title != null || notificationSpec.body != null)) {
             final String textToCheck = ensureNotNull(notificationSpec.title) + " " + ensureNotNull(notificationSpec.body);
             if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), textToCheck)) {
                 return;
@@ -626,6 +628,12 @@ public class NotificationListener extends NotificationListenerService {
             if (incidentId != null) {
                 IncidentMapping.put(notificationSpec.key, incidentId, provider);
             }
+
+            notificationSpec.cannedReplies = new String[]{
+                    IncidentConstants.ACTION_ACK,
+                    IncidentConstants.ACTION_ESC,
+                    IncidentConstants.ACTION_RES
+            };
         }
 
         notificationsActive.add(notificationSpec.getId());
@@ -1175,8 +1183,20 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
+    private boolean isIncidentModeEnabled(String source) {
+        if (!IncidentAppConfig.isIncidentApp(source)) {
+            return false;
+        }
+        return GBApplication.getPrefs().getBoolean(IncidentConstants.PREF_INCIDENT_MANAGEMENT_ENABLED, true);
+    }
+
     private boolean shouldIgnoreSource(StatusBarNotification sbn) {
         String source = sbn.getPackageName();
+
+        if (isIncidentModeEnabled(source)) {
+            LOG.info("Allowing incident app notification: {}", source);
+            return false;
+        }
 
         Prefs prefs = GBApplication.getPrefs();
 
