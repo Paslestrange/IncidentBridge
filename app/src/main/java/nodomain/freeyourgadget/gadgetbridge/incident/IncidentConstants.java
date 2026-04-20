@@ -24,6 +24,7 @@ public final class IncidentConstants {
     public static final String PKG_ROOTLY = "com.rootly.mobile";
 
     public static final String PREF_INCIDENT_MANAGEMENT_ENABLED = "pref_incident_management_enabled";
+    public static final String PREF_INCIDENT_ONLY_MODE = "pref_incident_only_mode";
     public static final String PREF_PAGERDUTY_API_TOKEN = "pagerduty_api_token";
     public static final String PREF_PAGERDUTY_USER_EMAIL = "pagerduty_user_email";
     public static final String PREF_OPSGENIE_API_KEY = "opsgenie_api_key";

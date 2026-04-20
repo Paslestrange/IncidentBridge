@@ -7,6 +7,12 @@
         android:summary="@string/pref_summary_incident_management_enabled"
         android:defaultValue="true" />
 
+    <SwitchPreferenceCompat
+        android:key="pref_incident_only_mode"
+        android:title="@string/pref_title_incident_only_mode"
+        android:summary="@string/pref_summary_incident_only_mode"
+        android:defaultValue="false" />
+
     <PreferenceCategory
         android:title="@string/pref_header_incident_providers">
 
