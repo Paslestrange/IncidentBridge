@@ -357,8 +357,8 @@ public class NotificationListener extends NotificationListenerService {
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
-        if (isIncidentOnlyModeEnabled() && !IncidentAppConfig.isIncidentApp(sbn.getPackageName())) {
-            LOG.debug("Incident only mode active, ignoring non-incident notification from {}", sbn.getPackageName());
+        if (!isRegularNotificationsEnabled() && !IncidentAppConfig.isIncidentApp(sbn.getPackageName())) {
+            LOG.debug("Regular notifications disabled, ignoring notification from {}", sbn.getPackageName());
             return;
         }
 
@@ -1195,8 +1195,8 @@ public class NotificationListener extends NotificationListenerService {
         return GBApplication.getPrefs().getBoolean(IncidentConstants.PREF_INCIDENT_MANAGEMENT_ENABLED, true);
     }
 
-    private boolean isIncidentOnlyModeEnabled() {
-        return GBApplication.getPrefs().getBoolean(IncidentConstants.PREF_INCIDENT_ONLY_MODE, false);
+    private boolean isRegularNotificationsEnabled() {
+        return GBApplication.getPrefs().getBoolean(IncidentConstants.PREF_SEND_REGULAR_NOTIFICATIONS, true);
     }
 
     private boolean shouldIgnoreSource(StatusBarNotification sbn) {

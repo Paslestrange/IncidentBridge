@@ -267,8 +267,8 @@
     <string name="pref_description_incident_management">Configure incident providers, API keys, and notification filtering for on-call alerts</string>
     <string name="pref_title_incident_management_enabled">Enable Incident Management</string>
     <string name="pref_summary_incident_management_enabled">Add wrist-based actions (Ack/Escalate/Resolve) to incident notifications from PagerDuty, Opsgenie, and Rootly</string>
-    <string name="pref_title_incident_only_mode">Incident Only Mode</string>
-    <string name="pref_summary_incident_only_mode">Block all non-incident notifications. Only PagerDuty, Opsgenie, and Rootly alerts will reach the device.</string>
+    <string name="pref_title_send_regular_notifications">Send Regular Notifications</string>
+    <string name="pref_summary_send_regular_notifications">Forward non-incident app notifications (WhatsApp, Gmail, etc.) to the device. Disable to only receive incident alerts.</string>
     <string name="pref_header_incident_providers">Incident Providers</string>
     <string name="pref_title_pagerduty_api_token">PagerDuty API Token</string>
     <string name="pref_summary_pagerduty_api_token">Your PagerDuty personal API token for acknowledging and resolving incidents</string>
