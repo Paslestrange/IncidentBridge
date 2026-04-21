@@ -40,10 +40,3 @@ jobs:
     
     - name: Build debug APK
       run: ./gradlew assembleMainlineDebug
-    
-    - name: Upload debug APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: incidentbridge-debug-apk
-        path: app/build/outputs/apk/mainline/debug/*.apk
-        retention-days: 7
