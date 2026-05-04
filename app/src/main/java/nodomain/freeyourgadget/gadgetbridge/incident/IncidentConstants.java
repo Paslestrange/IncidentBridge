@@ -21,7 +21,7 @@ public final class IncidentConstants {
 
     public static final String PKG_PAGERDUTY = "com.pagerduty.android";
     public static final String PKG_OPSGENIE = "com.opsgenie.app";
-    public static final String PKG_ROOTLY = "com.rootly.mobile";
+    public static final String PKG_ROOTLY = "com.rootly.app";
 
     public static final String PREF_INCIDENT_MANAGEMENT_ENABLED = "pref_incident_management_enabled";
     public static final String PREF_SEND_REGULAR_NOTIFICATIONS = "pref_send_regular_notifications";
