@@ -425,6 +425,7 @@ public class NotificationListener extends NotificationListenerService {
         if (notificationOldRepeatPreventionValue != null
                 && notification.when <= notificationOldRepeatPreventionValue
                 && !shouldIgnoreRepeatPrevention(sbn)
+                && !isIncidentEnabled
         ) {
             if (!hasPicture || notification.when <= lastPictureNotificationTime) {
                 LOG.info("NOT processing notification, already sent newer notifications from this source.");
@@ -444,7 +445,7 @@ public class NotificationListener extends NotificationListenerService {
         final boolean newPicture = hasPicture &&
                 notification.when - lastPictureNotificationTime  > TimeUnit.SECONDS.toMillis(notificationsTimeoutSeconds);
 
-        if (notificationBurstPreventionValue != null) {
+        if (notificationBurstPreventionValue != null && !isIncidentEnabled) {
             long diff = curTime - notificationBurstPreventionValue;
             if (diff < TimeUnit.SECONDS.toNanos(notificationsTimeoutSeconds)) {
                 if (!newPicture) {
