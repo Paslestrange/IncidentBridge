@@ -58,6 +58,23 @@ public final class IncidentParser {
         }
 
         if (sbn != null && sbn.getNotification() != null) {
+            String channelId = sbn.getNotification().getChannelId();
+            if (channelId != null) {
+                String channelLower = channelId.toLowerCase();
+                if (channelLower.contains("urgent") || channelLower.contains("critical") || channelLower.contains("p1")) {
+                    return IncidentConstants.SEV_P1;
+                }
+                if (channelLower.contains("high") || channelLower.contains("p2")) {
+                    return IncidentConstants.SEV_P2;
+                }
+                if (channelLower.contains("medium") || channelLower.contains("p3")) {
+                    return IncidentConstants.SEV_P3;
+                }
+                if (channelLower.contains("quiet") || channelLower.contains("low") || channelLower.contains("p4")) {
+                    return IncidentConstants.SEV_P4;
+                }
+            }
+
             int priority = sbn.getNotification().priority;
             switch (priority) {
                 case Notification.PRIORITY_HIGH:
