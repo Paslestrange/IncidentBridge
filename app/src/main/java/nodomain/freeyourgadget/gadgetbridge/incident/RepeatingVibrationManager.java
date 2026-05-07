@@ -18,7 +18,7 @@ public class RepeatingVibrationManager {
     private static final Map<String, Timer> activeTimers = new HashMap<>();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public static void startRepeatingVibration(String notificationKey, int[] pattern, int intervalMs, XiaomiSupport support) {
+    public static synchronized void startRepeatingVibration(String notificationKey, int[] pattern, int intervalMs, XiaomiSupport support) {
         if (notificationKey == null || pattern == null || pattern.length == 0 || intervalMs <= 0) {
             return;
         }
@@ -43,7 +43,7 @@ public class RepeatingVibrationManager {
         LOG.info("Started repeating vibration for {} every {}ms", notificationKey, intervalMs);
     }
 
-    public static void stopRepeatingVibration(String notificationKey) {
+    public static synchronized void stopRepeatingVibration(String notificationKey) {
         if (notificationKey == null) return;
         Timer timer = activeTimers.remove(notificationKey);
         if (timer != null) {

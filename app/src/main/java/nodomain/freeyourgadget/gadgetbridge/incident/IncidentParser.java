@@ -22,7 +22,7 @@ public final class IncidentParser {
     }
 
     public static String parseSeverity(String title, String body, StatusBarNotification sbn) {
-        String combined = (title + " " + body).toUpperCase();
+        String combined = ((title != null ? title : "") + " " + (body != null ? body : "")).toUpperCase();
 
         String customRegex = GBApplication.getPrefs().getString(IncidentConstants.PREF_CUSTOM_REGEX, "");
         if (!customRegex.isEmpty()) {
@@ -36,6 +36,7 @@ public final class IncidentParser {
                     }
                 }
             } catch (Exception e) {
+                LOG.warn("Invalid custom severity regex: {}", customRegex, e);
             }
         }
 
