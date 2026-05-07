@@ -1,7 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.incident;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -10,6 +17,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 public class WristFeedback {
     private static final Logger LOG = LoggerFactory.getLogger(WristFeedback.class);
     private static final long FEEDBACK_DISMISS_DELAY_MS = 5000;
+    private static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private WristFeedback() {
     }
@@ -25,15 +34,12 @@ public class WristFeedback {
         GBApplication.deviceService().onNotification(notificationSpec);
         LOG.info("Sent wrist feedback: {}", message);
 
-        // Auto-dismiss after a short delay
-        new Thread(() -> {
-            try {
-                Thread.sleep(FEEDBACK_DISMISS_DELAY_MS);
-                GBApplication.deviceService().onDeleteNotification(notificationSpec.getId());
-                LOG.debug("Auto-dismissed wrist feedback notification {}", notificationSpec.getId());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }).start();
+        final int notificationId = notificationSpec.getId();
+        executor.schedule(() -> {
+            mainHandler.post(() -> {
+                GBApplication.deviceService().onDeleteNotification(notificationId);
+                LOG.debug("Auto-dismissed wrist feedback notification {}", notificationId);
+            });
+        }, FEEDBACK_DISMISS_DELAY_MS, TimeUnit.MILLISECONDS);
     }
 }

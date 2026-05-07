@@ -4,12 +4,16 @@ import android.app.Notification;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public final class IncidentParser {
+    private static final Logger LOG = LoggerFactory.getLogger(IncidentParser.class);
     private static final Pattern SEVERITY_PATTERN = Pattern.compile(
             "(P[0-9]|SEV[0-9]|CRITICAL|HIGH|MEDIUM|LOW)",
             Pattern.CASE_INSENSITIVE

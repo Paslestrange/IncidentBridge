@@ -138,10 +138,13 @@ public class CustomVibrationRulesActivity extends AbstractGBActivity {
                 startActivityForResult(intent, REQUEST_EDIT_RULE);
             });
             holder.deleteButton.setOnClickListener(v -> {
-                VibrationRuleStore.deleteRule(rule.id);
-                rules.remove(position);
-                notifyItemRemoved(position);
-                updateEmptyView();
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    VibrationRuleStore.deleteRule(rule.id);
+                    rules.remove(adapterPosition);
+                    notifyItemRemoved(adapterPosition);
+                    updateEmptyView();
+                }
             });
         }
 

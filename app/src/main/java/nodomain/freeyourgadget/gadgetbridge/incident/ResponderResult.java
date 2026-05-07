@@ -4,5 +4,6 @@ public enum ResponderResult {
     SUCCESS,
     FAILED,
     TIMEOUT,
-    NO_CREDENTIALS
+    NO_CREDENTIALS,
+    NOT_SUPPORTED
 }
