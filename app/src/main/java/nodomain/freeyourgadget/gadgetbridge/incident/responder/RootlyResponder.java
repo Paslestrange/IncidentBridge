@@ -25,7 +25,7 @@ public class RootlyResponder implements IncidentResponder {
     @Override
     public ResponderResult escalate(String incidentId) {
         LOG.info("Escalate not yet implemented for Rootly incident {}", incidentId);
-        return ResponderResult.FAILED;
+        return ResponderResult.NOT_SUPPORTED;
     }
 
     @Override

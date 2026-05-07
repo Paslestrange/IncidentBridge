@@ -24,7 +24,7 @@ public class PagerDutyResponder implements IncidentResponder {
     @Override
     public ResponderResult escalate(String incidentId) {
         LOG.info("Escalate not directly supported via PagerDuty v2 API for incident {}", incidentId);
-        return ResponderResult.FAILED;
+        return ResponderResult.NOT_SUPPORTED;
     }
 
     @Override
